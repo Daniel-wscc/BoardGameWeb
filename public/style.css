@@ -1,0 +1,599 @@
+/* @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css); */
+body{
+    /* 网页 */
+    position: relative;
+    width: 1920px;
+    height: 937px;
+
+
+    background: rgb(0, 109, 117);
+}
+.input-chat{
+    /* 輸入框 */
+    position: absolute;
+    width: 788px;
+    height: 46px;
+    top: 839px;
+    left: 613px;
+
+
+    background: rgb(0, 71, 79);
+    border-radius: 0px 0px 25px 25px;
+}
+.iframe-chat{
+   /* 聊天室 */
+    position: absolute;
+    width: 788px;
+    height: 268px;
+    top: 571px;
+    left: 613px;
+
+
+    background: rgb(19, 168, 168);
+    border-radius: 25px 25px 0px 0px;
+}
+input[type="text" i]{
+    background:rgba(0, 0, 0, 0);
+    border-color:rgba(0, 0, 0, 0);
+    width: 698px;
+    left: 633px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+.onlineList{
+    /* 線上名單 */
+    position: absolute;
+    width: 448px;
+    height: 268px;
+    top: 617px;
+    left: 1437px;
+
+
+    background: rgb(19, 168, 168);
+    border-radius: 0px 0px 25px 25px;
+}
+#listTitle{
+    /* 線上玩家 */
+    position: absolute;
+    width: 96px;
+    height: 36px;
+    top: 5px;
+    left: 176px;
+
+
+    color: rgb(0, 0, 0);
+    font-family: 'Noto Sans SC';
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 36px;
+    letter-spacing: 0px;
+    text-align: right;
+
+
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+div.listTitle{
+    /* 線上玩家 */
+    position: absolute;
+    width: 448px;
+    height: 46px;
+    top: 571px;
+    left: 1437px;
+
+    background: rgb(54, 207, 201);
+    border-radius: 25px 25px 0px 0px;
+}
+/* #btn_send{
+    background: rgb(77, 139, 255);
+} */
+#help{
+    /* 幫助 */
+    position: absolute;
+    width: 542px;
+    height: 314px;
+    top: 571px;
+    left: 35px;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    background: rgb(19, 168, 168);
+    border-radius: 25px;
+}
+img{
+    /* max-width:100%;
+    max-height:100%; */
+    background-position:center center;
+    background-size:contain;
+}
+#btn_back{
+    /* 画板 3 */
+    position: absolute;
+    width: 102px;
+    height: 38px;
+    top: 579px;
+    left: 1280px;
+    /* 矩形 9 */
+    background: rgb(64, 93, 229);
+    border: 1px solid rgb(255, 255, 255);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+}
+#img-back{
+    /* 上一步 */
+    position: absolute;
+    width: 24px;
+    height: 25.89px;
+    top: 5px;
+    left: 9px;
+}
+#tb_back{
+    /* 返回 */
+    position: absolute;
+    width: 56px;
+    height: 21px;
+    top: 7px;
+    left: 39px;
+
+
+    color: rgb(255, 255, 255);
+    font-family: Noto Sans SC;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 36px;
+    letter-spacing: 0px;
+    text-align: center;
+
+
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#btn_start{
+    /* 開始 */
+    position: absolute;
+    width: 439px;
+    height: 132px;
+    top: 639px;
+    left: 788px;
+    box-sizing: border-box;
+
+
+    background: rgb(255, 77, 79);
+    border: 1px solid rgb(0, 0, 0);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+}
+#tb_start{
+    width: 439px;
+    height: 132px;
+    top: 639px;
+    left: 788px;
+
+
+    color: rgba(255, 255, 255, 0.9);
+    font-family: Noto Sans SC;
+    font-size: 96px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: -1px;
+    text-align: center;
+
+    flex-direction: row;
+    align-items: center;
+}
+#desktop{
+    /* 桌面 */
+    position: absolute;
+    width: 1850px;
+    height: 516px;
+    top: 33px;
+    left: 35px;
+
+    background: rgb(19, 168, 168);
+    border-radius: 50px;
+}
+#choose_title{
+    position: absolute;
+    width: 192px;
+    height: 60px;
+    top: 7px;
+    left: 236px;
+
+
+    color: rgb(255, 255, 255);
+    font-family: Noto Sans SC;
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 95px;
+    letter-spacing: 0px;
+    text-align: right;
+
+
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.chooseLeft{
+    /* 矩形 9 */
+    position: absolute;
+    width: 277px;
+    height: 199px;
+    top: 73px;
+    left: 32px;
+
+
+    background: rgb(255, 77, 79);
+    border-radius: 25px;
+}
+
+.chooseRight{
+    position: absolute;
+    width: 277px;
+    height: 199px;
+    top: 73px;
+    left: 355px;
+
+
+    background: rgb(92,219,211);
+    border-radius: 25px;
+}
+
+.choose{
+    /* 矩形 8 */
+    position: absolute;
+    width: 664px;
+    height: 310px;
+    top: 136px;
+    left: 628px;
+
+
+    background: rgb(0, 71, 79);
+    border-radius: 25px;
+}
+
+.knife{
+    /* 矩形 8 */
+    position: absolute;
+    width: 32px;
+    height: 158px;
+    top: 52px;
+    left: 161px;
+}
+.card{
+    /* 矩形 7 */
+    position: absolute;
+    width: 111px;
+    height: 194px;
+    top: 16px;
+    left: 213px;
+
+
+    background: rgb(0, 109, 117);
+    border-radius: 10px;
+}
+.nickname{
+    /* player0 */
+    position: absolute;
+    width: 120px;
+    height: 18px;
+    top: 22px;
+    left: 90px;
+
+
+    color: rgb(255, 255, 255);
+    font-family: 'fantasy';
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 18px;
+    letter-spacing: 0px;
+    text-align: right;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#player0{
+    position: absolute;
+    width: 346px;
+    height: 234px;
+    top: 57px;
+    left: 55px;
+
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(8, 151, 156);
+    border-radius: 25px;
+}
+#player1{
+    position: absolute;
+    width: 346px;
+    height: 234px;
+    top: 57px;
+    left: 421px;
+
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(8, 151, 156);
+    border-radius: 25px;
+}
+#player2{
+    position: absolute;
+    width: 346px;
+    height: 234px;
+    top: 57px;
+    left: 787px;
+
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(8, 151, 156);
+    border-radius: 25px;
+}
+#player3{
+    position: absolute;
+    width: 346px;
+    height: 234px;
+    top: 57px;
+    left: 1153px;
+
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(8, 151, 156);
+    border-radius: 25px;
+}
+#player4{
+    position: absolute;
+    width: 346px;
+    height: 234px;
+    top: 57px;
+    left: 1519px;
+
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(8, 151, 156);
+    border-radius: 25px;
+}
+#player5{
+    position: absolute;
+    width: 346px;
+    height: 234px;
+    top: 300px;
+    left: 55px;
+
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(8, 151, 156);
+    border-radius: 25px;
+}
+#player6{
+    position: absolute;
+    width: 346px;
+    height: 234px;
+    top: 300px;
+    left: 421px;
+
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(8, 151, 156);
+    border-radius: 25px;
+}
+#player7{
+    position: absolute;
+    width: 346px;
+    height: 234px;
+    top: 300px;
+    left: 787px;
+
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(8, 151, 156);
+    border-radius: 25px;
+}
+#player8{
+    position: absolute;
+    width: 346px;
+    height: 234px;
+    top: 300px;
+    left: 1153px;
+
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(8, 151, 156);
+    border-radius: 25px;
+}
+#player9{
+    position: absolute;
+    width: 346px;
+    height: 234px;
+    top: 300px;
+    left: 1519px;
+
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(8, 151, 156);
+    border-radius: 25px;
+}
+.playerPic{
+    /* 头像 */
+    position: absolute;
+    width: 88px;
+    height: 89px;
+    top: 0;
+    left: 5px;
+}
+.selection1{
+    /* 椭圆 1 */
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 97px;
+    left: 23px;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.6);
+}
+.selection2{
+    /* 椭圆 1 */
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 97px;
+    left: 66px;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.6);
+}
+.selection3{
+    /* 椭圆 1 */
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 97px;
+    left: 109px;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.6);
+}
+.item1{
+    /* 矩形 6 */
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 136px;
+    left: 23px;
+
+
+    background: rgb(0, 109, 117);
+    border-radius: 10px;
+}
+.item2{
+    /* 矩形 6 */
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 136px;
+    left: 66px;
+
+
+    background: rgb(0, 109, 117);
+    border-radius: 10px;
+}
+.item3{
+    /* 矩形 6 */
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 136px;
+    left: 109px;
+
+
+    background: rgb(0, 109, 117);
+    border-radius: 10px;
+}
+.item4{
+    /* 矩形 6 */
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 178px;
+    left: 23px;
+
+
+    background: rgb(0, 109, 117);
+    border-radius: 10px;
+}
+.item5{
+    /* 矩形 6 */
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 178px;
+    left: 66px;
+
+
+    background: rgb(0, 109, 117);
+    border-radius: 10px;
+}
+.item6{
+    /* 矩形 6 */
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 178px;
+    left: 109px;
+
+
+    background: rgb(0, 109, 117);
+    border-radius: 10px;
+}
+#menu{
+    /* 矩形 5 */
+    position: absolute;
+    width: 151px;
+    height: 124px;
+    top: 709px;
+    left: 1230px;
+
+
+    background: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+#soundCoolDown{
+    /* 矩形 10 */
+    position: absolute;
+    width: 788px;
+    height: 11px;
+    top: 828px;
+    left: 613px;
+
+
+    background: rgb(196, 196, 196);
+}
+.attackOrPass{
+    /* 攻擊 */
+    position: absolute;
+    width: 128px;
+    height: 60px;
+    top: 70px;
+    left: 74px;
+
+
+    color: rgb(255, 255, 255);
+    font-family: Noto Sans SC;
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 95px;
+    letter-spacing: 0px;
+    text-align: right;
+
+
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.skill{
+    /* 圆 1 */
+    position: absolute;
+    width: 130px;
+    height: 126px;
+    top: 0;
+    border-radius: 50%;
+
+    background: rgb(0, 35, 41);
+}
+.skill2{
+    left: 205px;
+}
+.skill3{
+    left: 410px;
+}
+.wrapper{
+    /* 画板 4 */
+    position: absolute;
+    width: 540px;
+    height: 126px;
+    top: 104px;
+    left: 62px;
+}
+/* 让div根据内容改变大小
+div{ width:auto; display:inline-block !important; display:inline; } */
