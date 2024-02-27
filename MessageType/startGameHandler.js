@@ -97,11 +97,11 @@ function handleStartGameMessage(wss, ws, gameData, msg) {
         allCard.splice(allCard.indexOf(clientTeam),1);
         if ((leftTeam[0] == "B" && leftTeam != "B3") || leftTeam == "R3") {
             var leftRB = 'B'
-            var leftTeamText = "右邊玩家向您接露陣營提示為 <span style = 'color:blue'> 藍色 </span>";
+            var leftTeamText = "右邊玩家向您揭露陣營提示為 <span style = 'color:blue'> 藍色 </span>";
         } 
         else{
             var leftRB = 'R'
-            var leftTeamText = "右邊玩家向您接露陣營提示為 <span style = 'color:red'> 紅色 </span>";
+            var leftTeamText = "右邊玩家向您揭露陣營提示為 <span style = 'color:red'> 紅色 </span>";
         }
         var leftTeamMsg = {
             type: "leftTeamMsg",
