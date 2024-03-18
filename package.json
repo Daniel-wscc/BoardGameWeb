@@ -4,5 +4,9 @@
     "socker.io": "^0.0.0-alpha-beta",
     "socket.io": "^4.5.1",
     "ws": "^8.6.0"
+  },
+  "devDependencies": {
+    "chai": "^5.1.0",
+    "mocha": "^10.3.0"
   }
 }
