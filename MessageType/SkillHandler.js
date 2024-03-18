@@ -1,4 +1,4 @@
-// textHandler.js
+// SkillHandler.js
 function handleSkillMessage(wss, ws, gameData, msg) {
     console.log(msg);
     var clickChara = gameData.shuffle[gameData.userList.indexOf(msg.to)]

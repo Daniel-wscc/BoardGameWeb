@@ -18,7 +18,7 @@ function skill1() {
                 $("#attackOrPass").fadeIn().show(1000);
                 break;
             case "2":
-                skill2Flag = 1;
+                skillFlag.skill2 = 1;
                 var unProtect = $(userList).not(protectList).toArray();
                 var canAttack = $(unProtect).not([nickname.value]).toArray();
                 canAttack.forEach(element => {
@@ -27,7 +27,7 @@ function skill1() {
                 $("#expose").fadeOut(100).hide();
                 break;
             case "3":
-                skill3Flag = 1;
+                skillFlag.skill3 = 1;
                 userList.forEach(element => {
                     if (element != nickname.value) {
                         $('#player'+userList.indexOf(element)).css("border-color","yellow");
@@ -53,7 +53,7 @@ function skill1() {
                 }
                 break;
             case "5":
-                skill5Flag = 1;
+                skillFlag.skill5 = 1;
                 var unProtect = $(userList).not(protectList).toArray();
                 var canAttack = $(unProtect).not([nickname.value]).toArray();
                 canAttack.forEach(element => {
@@ -62,7 +62,7 @@ function skill1() {
                 $("#expose").fadeOut(100).hide();
                 break;
             case "6":
-                skill6Flag = 1;
+                skillFlag.skill6 = 1;
                 skillEffects.skill6 = 1;
                 if (skill1Used + skill2Used + skill3Used >=3) {
                     var msg = {
@@ -101,7 +101,7 @@ function skill1() {
                 $("#expose").fadeOut(100).hide();                
                 break;
             case "8":
-                skill8Flag = 1;
+                skillFlag.skill8 = 1;
                 userList.forEach(element => {
                     if (element != nickname.value) {
                         $('#player'+userList.indexOf(element)).css("border-color","yellow");
@@ -110,7 +110,7 @@ function skill1() {
                 $("#expose").fadeOut(100).hide();
                 break;
             case "9":
-                skill9Flag = 1;
+                skillFlag.skill9 = 1;
                 userList.forEach(element => {
                     if (element != nickname.value) {
                         $('#player'+userList.indexOf(element)).css("border-color","yellow");
@@ -120,12 +120,12 @@ function skill1() {
                 break;
             case "N":
                 if (userList.length == 7) {
-                    skill10_NeedChoose = 2;
+                    skillFlag.skill10_NeedChoose = 2;
                 }
                 else if (userList.length == 9) {
-                    skill10_NeedChoose = 3;
+                    skillFlag.skill10_NeedChoose = 3;
                 }
-                skill10Flag = 1;
+                skillFlag.skill10 = 1;
                 userList.forEach(element => {
                     if (element != nickname.value) {
                         $('#player'+userList.indexOf(element)).css("border-color","yellow");

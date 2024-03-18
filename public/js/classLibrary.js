@@ -11,6 +11,20 @@ var skillEffects = {
     skill10: false,
 }
 
+var skillFlag = {
+    skill2: 0,
+    skill3: 0,
+    skill4: 0,
+    skill5: 0,
+    skill6: 0,
+    skill8: 0,
+    skill9: 0,
+    skill10: 0,
+    skill10_NeedChoose: 0,
+    skill10_BeenChoose: 0,
+    skill10_BeenClicked: [],
+}
+
 var userList = [];
 var nickname = "";
 var myIndex = -1;
@@ -37,17 +51,6 @@ var chooseTwo = 0;
 var chooseOne = "";
 var lastAttackID = "";
 var colorSkill = "";
-var skill2Flag = 0;
-var skill3Flag = 0;
-var skill4Flag = 0;
-var skill5Flag = 0;
-var skill6Flag = 0;
-var skill8Flag = 0;
-var skill9Flag = 0;
-var skill10Flag = 0;
-var skill10_NeedChoose = 0;
-var skill10_BeenChoose = 0;
-var skill10_BeenClicked = [];
 var expose10Index = 0;
 
 function initial() {
@@ -88,13 +91,19 @@ function initial() {
     chooseOne = "";
     lastAttackID = "";
     colorSkill = "";
-    skill2Flag = 0;
-    skill3Flag = 0;
-    skill4Flag = 0;
-    skill5Flag = 0;
-    skill6Flag = 0;
-    skill8Flag = 0;
-    skill9Flag = 0;
+    skillFlag = {
+        skill2: 0,
+        skill3: 0,
+        skill4: 0,
+        skill5: 0,
+        skill6: 0,
+        skill8: 0,
+        skill9: 0,
+        skill10: 0,
+        skill10_NeedChoose: 0,
+        skill10_BeenChoose: 0,
+        skill10_BeenClicked: [],
+    }
     expose10Index = 0;
     skillEffects = {
         skill1: false,
@@ -108,8 +117,4 @@ function initial() {
         skill9: false,
         skill10: false,
     }
-    skill10Flag = 0;
-    skill10_NeedChoose = 0;
-    skill10_BeenChoose = 0;
-    skill10_BeenClicked = [];
 }

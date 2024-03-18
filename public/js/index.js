@@ -214,11 +214,11 @@ function playerbeenClick(playIndex) {
             ws.send(JSON.stringify(msg));
         }
     }
-    else if (skill2Flag == 1 ) {//刺客
+    else if (skillFlag.skill2 == 1 ) {//刺客
         if (nickname.value == beenClickID && protectList.indexOf(beenClickID) !=-1 ) { //點自己
             return;
         }
-        skill2Flag = 0;
+        skillFlag.skill2 = 0;
         choosen();
         var msg = {
             type: "skill",
@@ -230,7 +230,7 @@ function playerbeenClick(playIndex) {
         };
         ws.send(JSON.stringify(msg));
     }
-    else if (skill3Flag == 1 ) {//看兩張
+    else if (skillFlag.skill3 == 1 ) {//看兩張
         if (nickname.value == beenClickID || chooseOne == beenClickID) { //點自己
             return;
         }
@@ -247,19 +247,19 @@ function playerbeenClick(playIndex) {
         };
         ws.send(JSON.stringify(msg));
         if (chooseTwo == 2) {
-            skill3Flag = 0;
+            skillFlag.skill3 = 0;
             chooseTwo = 0;
             chooseOne = "";
             choosen();
             $('#attackOrPass').fadeIn().show(1000);
         }
     }
-    else if (skill5Flag == 1 ) {//強制一個人受到傷害
+    else if (skillFlag.skill5 == 1 ) {//強制一個人受到傷害
         if (nickname.value == beenClickID && protectList.indexOf(beenClickID) != -1) { //點自己
             return;
         }
         choosen();
-        skill5Flag = 0;
+        skillFlag.skill5 = 0;
         var msg = {
             type: "skill",
             index: myIndex,
@@ -270,12 +270,12 @@ function playerbeenClick(playIndex) {
         };
         ws.send(JSON.stringify(msg));
     }
-    else if (skill6Flag == 1 ) {//給盾牌
+    else if (skillFlag.skill6 == 1 ) {//給盾牌
         if (nickname.value == beenClickID && protectList.indexOf(beenClickID) != -1) { //點自己
             return;
         }
         choosen();
-        skill6Flag = 0;
+        skillFlag.skill6 = 0;
         var msg = {
             type: "skill",
             index: myIndex,
@@ -287,12 +287,12 @@ function playerbeenClick(playIndex) {
         ws.send(JSON.stringify(msg));
         $('#attackOrPass').fadeIn().show(1000);
     }
-    else if (skill8Flag == 1 ) {//給法杖
+    else if (skillFlag.skill8 == 1 ) {//給法杖
         if (nickname.value == beenClickID) { //點自己
             return;
         }
         choosen();
-        skill8Flag = 0;
+        skillFlag.skill8 = 0;
         var msg = {
             type: "skill",
             index: myIndex,
@@ -303,12 +303,12 @@ function playerbeenClick(playIndex) {
         ws.send(JSON.stringify(msg));
         $('#attackOrPass').fadeIn().show(1000);
     }
-    else if (skill9Flag == 1 ) {//給摺扇
+    else if (skillFlag.skill9 == 1 ) {//給摺扇
         if (nickname.value == beenClickID) { //點自己
             return;
         }
         choosen();
-        skill9Flag = 0;
+        skillFlag.skill9 = 0;
         var msg = {
             type: "skill",
             index: myIndex,
@@ -319,25 +319,25 @@ function playerbeenClick(playIndex) {
         ws.send(JSON.stringify(msg));
         $('#attackOrPass').fadeIn().show(1000);
     }
-    else if (skill10Flag == 1 ) {//給詛咒
-        if (nickname.value == beenClickID || skill10_BeenClicked.indexOf(beenClickID) != -1) { //點自己
+    else if (skillFlag.skill10 == 1 ) {//給詛咒
+        if (nickname.value == beenClickID || skillFlag.skill10_BeenClicked.indexOf(beenClickID) != -1) { //點自己
             return;
         }
-        skill10_BeenClicked.push(beenClickID);
+        skillFlag.skill10_BeenClicked.push(beenClickID);
         $('#player'+userList.indexOf(beenClickID)).css("border-color","black");
-        skill10_BeenChoose++;
-        if (skill10_NeedChoose == skill10_BeenChoose) {
+        skillFlag.skill10_BeenChoose++;
+        if (skillFlag.skill10_NeedChoose == skillFlag.skill10_BeenChoose) {
             var msg = {
                 type: "skill",
                 index: myIndex,
                 id: nickname.value,
-                curseList: skill10_BeenClicked,
+                curseList: skillFlag.skill10_BeenClicked,
                 exposeType: 10,
                 date: Date.now()
             };
             ws.send(JSON.stringify(msg));
-            skill10_BeenChoose = 0;
-            skill10_BeenClicked = [];
+            skillFlag.skill10_BeenChoose = 0;
+            skillFlag.skill10_BeenClicked = [];
             choosen();
             $('#attackOrPass').fadeIn().show(1000);
         }
