@@ -5,6 +5,7 @@ function handleToKnifeMessage(wss, ws, gameData, msg) {
         var serverMsg = {
             type: "knife",
             text: "<b> "+ msg.id + "</b> 將匕首傳給 <b>" + msg.to + "</b> 。",
+            gameData: gameData,
             user: gameData.userList,
             give: msg.id,
             toKnife: msg.to,

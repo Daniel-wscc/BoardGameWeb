@@ -21,10 +21,16 @@ function handleGameOverMessage(wss, ws, gameData, msg) {
         else
             serverMsg.text = "藍隊獲勝"
     }
-    wss.clients.forEach(client => {
-        client.send(JSON.stringify(serverMsg))
-    })
+    if (wss && wss.clients) {
+        wss.clients.forEach(client => {
+            client.send(JSON.stringify(serverMsg))
+        });
+    }
+    return serverMsg;
+    // wss.clients.forEach(client => {
+    //     client.send(JSON.stringify(serverMsg))
+    // })
   }
   
   module.exports = handleGameOverMessage;
-  
+  //export { handleGameOverMessage };

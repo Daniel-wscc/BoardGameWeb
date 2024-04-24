@@ -6,6 +6,7 @@ function handleHelpMessage(wss, ws, gameData, msg) {
             type: "help",
             text: "<b> "+ msg.id + "</b> 正等待干涉 。 ",
             needHelp: msg.id,
+            gameData: gameData,
             id: '系統訊息',
             date: Date.now()
         };
