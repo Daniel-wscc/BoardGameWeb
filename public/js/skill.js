@@ -1,8 +1,32 @@
+function checkUnProtectAfterSkill() {
+    if (skillEffects.skill6 == 1) {
+        if (skill1Used + skill2Used + skill3Used >= 3) {
+            var msg = {
+                type: "unProtect",
+                team: myCharacter[0],
+                index: myIndex,
+                myProtectList: myProtectList,
+                id: nickname.value,
+                exposeType: myCharacter[1]
+            };
+            ws.send(JSON.stringify(msg));
+            skillEffects.skill6 = 0;
+            myProtectList = [];
+        }
+    }
+}
+
+function resetDamageEffects() {
+    skillEffects.skill4 = 0;
+    skillEffects.skill5 = 0;
+    skillEffects.skill7 = 0;
+}
+
 function skill1() {
-    if (skill1Used == 1)return;
+    if (skill1Used == 1) return;
     skill1Used = 1;
-    $('#skill1').attr('disabled','disabled');
-    $('#skill1').css('background-image','none')
+    $('#skill1').attr('disabled', 'disabled');
+    $('#skill1').css('background-image', 'none');
     if (skillEffects.skill2 == 0 && skillEffects.skill4 == 0 && skillEffects.skill5 == 0 && skillEffects.skill7 == 0) {
         switch (exposeStr[0]) {
             case "1":
@@ -14,23 +38,23 @@ function skill1() {
                     exposeType: 1
                 };
                 ws.send(JSON.stringify(msg));
-                $("#expose").fadeOut(100).hide();                
+                $("#expose").fadeOut(100).hide();
                 $("#attackOrPass").fadeIn().show(1000);
                 break;
             case "2":
                 skillFlag.skill2 = 1;
                 var unProtect = $(userList).not(protectList).toArray();
                 var canAttack = $(unProtect).not([nickname.value]).toArray();
-                canAttack.forEach(element => {
-                    $('#player'+userList.indexOf(element)).css("border-color","yellow");
+                canAttack.forEach(function(element) {
+                    $('#player' + userList.indexOf(element)).css("border-color", "yellow");
                 });
                 $("#expose").fadeOut(100).hide();
                 break;
             case "3":
                 skillFlag.skill3 = 1;
-                userList.forEach(element => {
+                userList.forEach(function(element) {
                     if (element != nickname.value) {
-                        $('#player'+userList.indexOf(element)).css("border-color","yellow");
+                        $('#player' + userList.indexOf(element)).css("border-color", "yellow");
                     }
                 });
                 $("#expose").fadeOut(100).hide();
@@ -39,8 +63,7 @@ function skill1() {
                 $("#expose").fadeOut(100).hide();
                 if (beenHelp) {
                     $("#skill-4").fadeIn().show(1000);
-                }
-                else{
+                } else {
                     var msg = {
                         type: "banSkill",
                         team: myCharacter[0],
@@ -56,20 +79,20 @@ function skill1() {
                 skillFlag.skill5 = 1;
                 var unProtect = $(userList).not(protectList).toArray();
                 var canAttack = $(unProtect).not([nickname.value]).toArray();
-                canAttack.forEach(element => {
-                    $('#player'+userList.indexOf(element)).css("border-color","yellow");
+                canAttack.forEach(function(element) {
+                    $('#player' + userList.indexOf(element)).css("border-color", "yellow");
                 });
                 $("#expose").fadeOut(100).hide();
                 break;
             case "6":
                 skillFlag.skill6 = 1;
                 skillEffects.skill6 = 1;
-                if (skill1Used + skill2Used + skill3Used >=3) {
+                if (skill1Used + skill2Used + skill3Used >= 3) {
                     var msg = {
                         type: "banSkill",
                         team: myCharacter[0],
                         index: myIndex,
-                        myProtectList:myProtectList,
+                        myProtectList: myProtectList,
                         id: nickname.value,
                         exposeType: 6
                     };
@@ -78,12 +101,11 @@ function skill1() {
                     myProtectList = [];
                     $("#expose").fadeOut(100).hide();
                     $("#attackOrPass").fadeIn().show();
-                }
-                else{
+                } else {
                     var unProtect = $(userList).not(protectList).toArray();
                     var canAttack = $(unProtect).not([nickname.value]).toArray();
-                    canAttack.forEach(element => {
-                        $('#player'+userList.indexOf(element)).css("border-color","yellow");
+                    canAttack.forEach(function(element) {
+                        $('#player' + userList.indexOf(element)).css("border-color", "yellow");
                     });
                     $("#expose").fadeOut(100).hide();
                 }
@@ -98,22 +120,22 @@ function skill1() {
                     exposeType: 7
                 };
                 ws.send(JSON.stringify(msg));
-                $("#expose").fadeOut(100).hide();                
+                $("#expose").fadeOut(100).hide();
                 break;
             case "8":
                 skillFlag.skill8 = 1;
-                userList.forEach(element => {
+                userList.forEach(function(element) {
                     if (element != nickname.value) {
-                        $('#player'+userList.indexOf(element)).css("border-color","yellow");
+                        $('#player' + userList.indexOf(element)).css("border-color", "yellow");
                     }
                 });
                 $("#expose").fadeOut(100).hide();
                 break;
             case "9":
                 skillFlag.skill9 = 1;
-                userList.forEach(element => {
+                userList.forEach(function(element) {
                     if (element != nickname.value) {
-                        $('#player'+userList.indexOf(element)).css("border-color","yellow");
+                        $('#player' + userList.indexOf(element)).css("border-color", "yellow");
                     }
                 });
                 $("#expose").fadeOut(100).hide();
@@ -121,24 +143,21 @@ function skill1() {
             case "N":
                 if (userList.length == 7) {
                     skillFlag.skill10_NeedChoose = 2;
-                }
-                else if (userList.length == 9) {
+                } else if (userList.length == 9) {
                     skillFlag.skill10_NeedChoose = 3;
                 }
                 skillFlag.skill10 = 1;
-                userList.forEach(element => {
+                userList.forEach(function(element) {
                     if (element != nickname.value) {
-                        $('#player'+userList.indexOf(element)).css("border-color","yellow");
+                        $('#player' + userList.indexOf(element)).css("border-color", "yellow");
                     }
                 });
                 $("#expose").fadeOut(100).hide();
                 break;
-
             default:
                 break;
         }
-    }
-    else if(skillEffects.skill2 == 1) {
+    } else if (skillEffects.skill2 == 1) {
         chooseTwo++;
         var msg = {
             type: "banSkill",
@@ -153,8 +172,7 @@ function skill1() {
             $("#expose").fadeOut(100).hide();
             $("#attackOrPass").fadeIn().show();
         }
-    }
-    else if(skillEffects.skill4 == 1 || skillEffects.skill5 == 1 || skillEffects.skill7 == 1){
+    } else if (skillEffects.skill4 == 1 || skillEffects.skill5 == 1 || skillEffects.skill7 == 1) {
         var msg = {
             type: "banSkill",
             team: myCharacter[0],
@@ -165,140 +183,69 @@ function skill1() {
             exposeType: myCharacter[1]
         };
         ws.send(JSON.stringify(msg));
-        $('#expose').fadeOut(100).hide()
+        $('#expose').fadeOut(100).hide();
     }
     if (skillEffects.skill5 == 1) {
         $("#attackOrPass").fadeIn().show();
     }
-    if (skill1Used + skill2Used + skill3Used >=3) {
-        if (skillEffects.skill6 == 1) {
-            var msg = {
-                type: "unProtect",
-                team: myCharacter[0],
-                index: myIndex,
-                myProtectList:myProtectList,
-                id: nickname.value,
-                exposeType: myCharacter[1]
-            };
-            ws.send(JSON.stringify(msg));
-            skillEffects.skill6 = 0;
-            myProtectList = [];
-        }
+    if (skill1Used + skill2Used + skill3Used >= 3) {
+        checkUnProtectAfterSkill();
         if (myCharacter[1] == "N") {
             skill10CantAttack.push();
         }
     }
     helpList = [];
-    skillEffects.skill4 = 0;
-    skillEffects.skill5 = 0;
-    skillEffects.skill7 = 0;
+    resetDamageEffects();
 }
-function skill2() {
-    if (skill2Used == 1)return;
-    skill2Used = 1;
-    $('#skill2').attr('disabled','disabled');
-    $('#skill2').css('background-image','none')
+
+function useExposeSkill(skillIndex) {
+    var skillUsedKey = 'skill' + skillIndex + 'Used';
+    if (window[skillUsedKey] == 1) return;
+    window[skillUsedKey] = 1;
+    $('#skill' + skillIndex).attr('disabled', 'disabled');
+    $('#skill' + skillIndex).css('background-image', 'none');
+
+    var exposeChar = exposeStr[skillIndex - 1];
     if (skillEffects.skill8 == 1) {
-        Expose(2, "N");
-    }
-    else{
-        switch (exposeStr[1]) {
+        Expose(skillIndex, "N");
+    } else {
+        switch (exposeChar) {
             case 'F':
-                expose10Index = 2;
+                expose10Index = skillIndex;
                 $('#expose10').fadeIn().show();
                 break;
             default:
-                Expose(2, exposeStr[1])
+                Expose(skillIndex, exposeChar);
                 break;
         }
     }
-    if(skillEffects.skill2 == 1) {
-        chooseTwo++;
-        if (chooseTwo == 2) {
-            skillEffects.skill2 = 0;
-            $('#expose').fadeOut(100).hide()
-            $("#attackOrPass").fadeIn().show();
-        }
-    }
-    else if (skillEffects.skill4 == 1 || skillEffects.skill7 == 1 || exposeStr[0] == "N"){
-        $('#expose').fadeOut(100).hide()
-    }
-    else{
-        $('#expose').fadeOut(100).hide();
-        $("#attackOrPass").fadeIn().show();
-    }
-    if (skillEffects.skill6 == 1) {
-        if (skill1Used + skill2Used + skill3Used >=3) {
-            var msg = {
-                type: "unProtect",
-                team: myCharacter[0],
-                index: myIndex,
-                myProtectList:myProtectList,
-                id: nickname.value,
-                exposeType: myCharacter[1]
-            };
-            ws.send(JSON.stringify(msg));
-            skillEffects.skill6 = 0;
-            myProtectList = [];
-        }
-    }
-    skillEffects.skill4 = 0;
-    skillEffects.skill5 = 0;
-    skillEffects.skill7 = 0;
-}
-function skill3() {
-    if (skill3Used == 1)return;
-    skill3Used = 1;
-    $('#skill3').attr('disabled','disabled');
-    $('#skill3').css('background-image','none')
-    if (skillEffects.skill8 == 1) {
-        Expose(3, "N");
-    }
-    else{
-        switch (exposeStr[2]) {
-            case 'F':
-                expose10Index = 3;
-                $('#expose10').fadeIn().show();
-                break;
-            default:
-                Expose(3, exposeStr[2])
-                break;
-        }
-    }
-    if(skillEffects.skill2 == 1) {
+
+    if (skillEffects.skill2 == 1) {
         chooseTwo++;
         if (chooseTwo == 2) {
             skillEffects.skill2 = 0;
             $('#expose').fadeOut(100).hide();
             $("#attackOrPass").fadeIn().show();
         }
-    }
-    else if (skillEffects.skill4 == 1 || skillEffects.skill7 == 1 || exposeStr[0] == "N"){
-        $('#expose').fadeOut(100).hide()
-    }
-    else{
+    } else if (skillEffects.skill4 == 1 || skillEffects.skill7 == 1 || exposeStr[0] == "N") {
+        $('#expose').fadeOut(100).hide();
+    } else {
         $('#expose').fadeOut(100).hide();
         $("#attackOrPass").fadeIn().show();
     }
-    if (skillEffects.skill6 == 1) {
-        if (skill1Used + skill2Used + skill3Used >=3) {
-            var msg = {
-                type: "unProtect",
-                team: myCharacter[0],
-                index: myIndex,
-                myProtectList:myProtectList,
-                id: nickname.value,
-                exposeType: myCharacter[1]
-            };
-            ws.send(JSON.stringify(msg));
-            skillEffects.skill6 = 0;
-            myProtectList = [];
-        }
-    }
-    skillEffects.skill4 = 0;
-    skillEffects.skill5 = 0;
-    skillEffects.skill7 = 0;
+
+    checkUnProtectAfterSkill();
+    resetDamageEffects();
 }
+
+function skill2() {
+    useExposeSkill(2);
+}
+
+function skill3() {
+    useExposeSkill(3);
+}
+
 function skill4(skillType) {
     var msg = {
         type: "skill",
@@ -312,6 +259,7 @@ function skill4(skillType) {
     ws.send(JSON.stringify(msg));
     $("#skill-4").fadeOut(100).hide();
 }
+
 function Expose(_selectionIndex, _selectionType) {
     var msg = {
         type: "expose",

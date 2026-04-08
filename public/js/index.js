@@ -119,7 +119,7 @@ function back() {
         passFlag = 0;
         $('#attackOrPass').show();
     }
-    else if (bearFlag = 1){
+    else if (bearFlag == 1){
         bearFlag = 0;
         $('#expose').hide();
         $('#bearOrHelp').fadeIn().show();
@@ -157,16 +157,24 @@ function Not() {
     $('.choose').fadeOut(100).hide();
 }
 
-function playerbeenClick(playIndex) {
-    //player1
-    beenClickID = userList[playIndex.id[6]];
-    if (attackFlag == 1) {
+function sendSkillMsg(beenClickID, exposeType, extra) {
+    var msg = {
+        type: "skill",
+        index: myIndex,
+        id: nickname.value,
+        to: beenClickID,
+        exposeType: exposeType,
+        date: Date.now()
+    };
+    if (extra) Object.assign(msg, extra);
+    ws.send(JSON.stringify(msg));
+}
+
+var clickHandlers = {
+    attack: function(beenClickID) {
         var unProtect = $(userList).not(protectList).toArray();
         var canAttack = $(unProtect).not([nickname.value]).toArray();
-        if (canAttack.indexOf(beenClickID) == -1){ //點自己
-            //$('#attackOrPass').fadeIn().show();
-            return;
-        }
+        if (canAttack.indexOf(beenClickID) == -1) return;
         attackFlag = 0;
         choosen();
         $('#btn_back').hide();
@@ -179,13 +187,9 @@ function playerbeenClick(playIndex) {
             date: Date.now()
         };
         ws.send(JSON.stringify(msg));
-
-    }
-    else if (passFlag == 1) {
-        if (nickname.value == beenClickID) { //點自己
-            //$('#attackOrPass').fadeIn().show();
-            return;
-        }
+    },
+    pass: function(beenClickID) {
+        if (nickname.value == beenClickID) return;
         passFlag = 0;
         choosen();
         $('#btn_back').hide();
@@ -193,59 +197,38 @@ function playerbeenClick(playIndex) {
             type: "knife",
             index: myIndex,
             toKnife: beenClickID,
-            text: "<b> "+ nickname.value + "</b> 將匕首傳給 <b>" + beenClickID + "</b> 。",
+            text: "<b> " + nickname.value + "</b> 將匕首傳給 <b>" + beenClickID + "</b> 。",
             id: '系統訊息',
             date: Date.now()
         };
         ws.send(JSON.stringify(msg));
-    }
-    else if (helpFlag == 1){
-        if(helpList.indexOf(beenClickID)!=-1){
-            helpFlag = 0;
-            choosen();
-            $('#btn_back').hide();
-            var msg = {
-                type: "trueDamage",
-                index: myIndex,
-                id: nickname.value,
-                to: beenClickID,
-                date: Date.now()
-            };
-            ws.send(JSON.stringify(msg));
-        }
-    }
-    else if (skillFlag.skill2 == 1 ) {//刺客
-        if (nickname.value == beenClickID && protectList.indexOf(beenClickID) !=-1 ) { //點自己
-            return;
-        }
+    },
+    help: function(beenClickID) {
+        if (helpList.indexOf(beenClickID) == -1) return;
+        helpFlag = 0;
+        choosen();
+        $('#btn_back').hide();
+        var msg = {
+            type: "trueDamage",
+            index: myIndex,
+            id: nickname.value,
+            to: beenClickID,
+            date: Date.now()
+        };
+        ws.send(JSON.stringify(msg));
+    },
+    skill2: function(beenClickID) { // 刺客
+        if (nickname.value == beenClickID && protectList.indexOf(beenClickID) != -1) return;
         skillFlag.skill2 = 0;
         choosen();
-        var msg = {
-            type: "skill",
-            index: myIndex,
-            id: nickname.value,
-            to: beenClickID,
-            exposeType: 2,
-            date: Date.now()
-        };
-        ws.send(JSON.stringify(msg));
-    }
-    else if (skillFlag.skill3 == 1 ) {//看兩張
-        if (nickname.value == beenClickID || chooseOne == beenClickID) { //點自己
-            return;
-        }
+        sendSkillMsg(beenClickID, 2);
+    },
+    skill3: function(beenClickID) { // 看兩張
+        if (nickname.value == beenClickID || chooseOne == beenClickID) return;
         chooseOne = beenClickID;
-        $('#player'+userList.indexOf(beenClickID)).css("border-color","black");
+        $('#player' + userList.indexOf(beenClickID)).css("border-color", "black");
         chooseTwo++;
-        var msg = {
-            type: "skill",
-            index: myIndex,
-            id: nickname.value,
-            to: beenClickID,
-            exposeType: 3,
-            date: Date.now()
-        };
-        ws.send(JSON.stringify(msg));
+        sendSkillMsg(beenClickID, 3);
         if (chooseTwo == 2) {
             skillFlag.skill3 = 0;
             chooseTwo = 0;
@@ -253,78 +236,38 @@ function playerbeenClick(playIndex) {
             choosen();
             $('#attackOrPass').fadeIn().show(1000);
         }
-    }
-    else if (skillFlag.skill5 == 1 ) {//強制一個人受到傷害
-        if (nickname.value == beenClickID && protectList.indexOf(beenClickID) != -1) { //點自己
-            return;
-        }
+    },
+    skill5: function(beenClickID) { // 強制傷害
+        if (nickname.value == beenClickID && protectList.indexOf(beenClickID) != -1) return;
         choosen();
         skillFlag.skill5 = 0;
-        var msg = {
-            type: "skill",
-            index: myIndex,
-            id: nickname.value,
-            to: beenClickID,
-            exposeType: 5,
-            date: Date.now()
-        };
-        ws.send(JSON.stringify(msg));
-    }
-    else if (skillFlag.skill6 == 1 ) {//給盾牌
-        if (nickname.value == beenClickID && protectList.indexOf(beenClickID) != -1) { //點自己
-            return;
-        }
+        sendSkillMsg(beenClickID, 5);
+    },
+    skill6: function(beenClickID) { // 給盾牌
+        if (nickname.value == beenClickID && protectList.indexOf(beenClickID) != -1) return;
         choosen();
         skillFlag.skill6 = 0;
-        var msg = {
-            type: "skill",
-            index: myIndex,
-            id: nickname.value,
-            to: beenClickID,
-            exposeType: 6,
-            date: Date.now()
-        };
-        ws.send(JSON.stringify(msg));
+        sendSkillMsg(beenClickID, 6);
         $('#attackOrPass').fadeIn().show(1000);
-    }
-    else if (skillFlag.skill8 == 1 ) {//給法杖
-        if (nickname.value == beenClickID) { //點自己
-            return;
-        }
+    },
+    skill8: function(beenClickID) { // 給法杖
+        if (nickname.value == beenClickID) return;
         choosen();
         skillFlag.skill8 = 0;
-        var msg = {
-            type: "skill",
-            index: myIndex,
-            id: nickname.value,
-            to: beenClickID,
-            exposeType: 8
-        };
-        ws.send(JSON.stringify(msg));
+        sendSkillMsg(beenClickID, 8);
         $('#attackOrPass').fadeIn().show(1000);
-    }
-    else if (skillFlag.skill9 == 1 ) {//給摺扇
-        if (nickname.value == beenClickID) { //點自己
-            return;
-        }
+    },
+    skill9: function(beenClickID) { // 給摺扇
+        if (nickname.value == beenClickID) return;
         choosen();
         skillFlag.skill9 = 0;
-        var msg = {
-            type: "skill",
-            index: myIndex,
-            id: nickname.value,
-            to: beenClickID,
-            exposeType: 9
-        };
-        ws.send(JSON.stringify(msg));
+        sendSkillMsg(beenClickID, 9);
         $('#attackOrPass').fadeIn().show(1000);
-    }
-    else if (skillFlag.skill10 == 1 ) {//給詛咒
-        if (nickname.value == beenClickID || skillFlag.skill10_BeenClicked.indexOf(beenClickID) != -1) { //點自己
-            return;
-        }
+    },
+    skill10: function(beenClickID) { // 給詛咒
+        if (nickname.value == beenClickID || skillFlag.skill10_BeenClicked.indexOf(beenClickID) != -1) return;
         skillFlag.skill10_BeenClicked.push(beenClickID);
-        $('#player'+userList.indexOf(beenClickID)).css("border-color","black");
+        $('#player' + userList.indexOf(beenClickID)).css("border-color", "black");
         skillFlag.skill10_BeenChoose++;
         if (skillFlag.skill10_NeedChoose == skillFlag.skill10_BeenChoose) {
             var msg = {
@@ -342,6 +285,20 @@ function playerbeenClick(playIndex) {
             $('#attackOrPass').fadeIn().show(1000);
         }
     }
+};
+
+function playerbeenClick(playIndex) {
+    beenClickID = userList[playIndex.id[6]];
+    if (attackFlag == 1) clickHandlers.attack(beenClickID);
+    else if (passFlag == 1) clickHandlers.pass(beenClickID);
+    else if (helpFlag == 1) clickHandlers.help(beenClickID);
+    else if (skillFlag.skill2 == 1) clickHandlers.skill2(beenClickID);
+    else if (skillFlag.skill3 == 1) clickHandlers.skill3(beenClickID);
+    else if (skillFlag.skill5 == 1) clickHandlers.skill5(beenClickID);
+    else if (skillFlag.skill6 == 1) clickHandlers.skill6(beenClickID);
+    else if (skillFlag.skill8 == 1) clickHandlers.skill8(beenClickID);
+    else if (skillFlag.skill9 == 1) clickHandlers.skill9(beenClickID);
+    else if (skillFlag.skill10 == 1) clickHandlers.skill10(beenClickID);
 }
 
 

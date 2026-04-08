@@ -1,25 +1,19 @@
-// LoginHandler.js
-// var userList = module.exports.userList;
-// var _gameState = module.exports.gameState;
-//var ws = module.exports.ws;
-function handleloginMessage(wss, ws, gameData, msg) {
-    // 處理文字訊息的邏輯
+const { broadcast, escapeHtml } = require('../utils/broadcast');
+
+function handleLoginMessage(wss, ws, gameData, msg) {
     if (gameData.gameState == 0) {
         gameData.userList.push(msg.id);
-        wss.clients.forEach(client => {
-            var welcome = {
-                type: "welcome",
-                text: msg.id + ' 已連接。',
-                user: gameData.userList,
-                id: '系統訊息',
-                date: Date.now()
-            };
-            ws.id = msg.id;
-            client.send(JSON.stringify(welcome))
-            //console.log(welcome);
-        })
+        ws.id = msg.id;
+        var welcome = {
+            type: "welcome",
+            text: escapeHtml(msg.id) + ' 已連接。',
+            user: gameData.userList,
+            id: '系統訊息',
+            date: Date.now()
+        };
+        broadcast(wss, welcome);
     }
-    else{
+    else {
         var alreadyStart = {
             type: "alreadyStart",
             gameState: gameData.gameState,
@@ -27,7 +21,6 @@ function handleloginMessage(wss, ws, gameData, msg) {
         ws.send(JSON.stringify(alreadyStart));
     }
     console.log("Received [Login] message:", msg.text);
-  }
-  
-  module.exports = handleloginMessage;
-  
+}
+
+module.exports = handleLoginMessage;

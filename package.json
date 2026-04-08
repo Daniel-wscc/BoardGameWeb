@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "express": "^4.18.1",
-    "socker.io": "^0.0.0-alpha-beta",
     "socket.io": "^4.5.1",
     "ws": "^8.6.0"
   },
@@ -11,7 +10,8 @@
     "mocha": "^10.3.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "simulate": "node test/gameSimulation.js"
   },
   "type": "commonjs"
 }

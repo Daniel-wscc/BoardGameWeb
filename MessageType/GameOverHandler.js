@@ -1,4 +1,5 @@
-// textHandler.js
+const { broadcast } = require('../utils/broadcast');
+
 function handleGameOverMessage(wss, ws, gameData, msg) {
     var serverMsg = {
         type: "GameOver",
@@ -7,30 +8,24 @@ function handleGameOverMessage(wss, ws, gameData, msg) {
         id: '系統訊息',
         date: Date.now()
     };
-    let attackCharacter = gameData.shuffle[gameData.userList.indexOf(msg.attackID)]
-    let beenKilledCharacter = gameData.shuffle[gameData.userList.indexOf(msg.beenKilledID)]
+    var attackCharacter = gameData.shuffle[gameData.userList.indexOf(msg.attackID)];
+    var beenKilledCharacter = gameData.shuffle[gameData.userList.indexOf(msg.beenKilledID)];
     if (attackCharacter[0] == "B") {
         if (beenKilledCharacter == gameData.redTeam[0])
-            serverMsg.text = "藍隊獲勝"
+            serverMsg.text = "藍隊獲勝";
         else
-            serverMsg.text = "紅隊獲勝"
+            serverMsg.text = "紅隊獲勝";
     }
     else if (attackCharacter[0] == "R") {
         if (beenKilledCharacter == gameData.blueTeam[0])
-            serverMsg.text = "紅隊獲勝"
+            serverMsg.text = "紅隊獲勝";
         else
-            serverMsg.text = "藍隊獲勝"
+            serverMsg.text = "藍隊獲勝";
     }
     if (wss && wss.clients) {
-        wss.clients.forEach(client => {
-            client.send(JSON.stringify(serverMsg))
-        });
+        broadcast(wss, serverMsg);
     }
     return serverMsg;
-    // wss.clients.forEach(client => {
-    //     client.send(JSON.stringify(serverMsg))
-    // })
-  }
-  
-  module.exports = handleGameOverMessage;
-  //export { handleGameOverMessage };
+}
+
+module.exports = handleGameOverMessage;

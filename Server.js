@@ -69,7 +69,7 @@ wss.on('connection',function connection(ws){
         console.log(msg);
 
         // 使用訊息處理器處理訊息
-        if (messageHandlers.hasOwnProperty(messageType)) {
+        if (Object.prototype.hasOwnProperty.call(messageHandlers, messageType)) {
             messageHandlers[messageType](wss, ws, gameData, msg);
         } 
 		else {
@@ -79,11 +79,11 @@ wss.on('connection',function connection(ws){
     }
 
     ws.on('close', () => {
-        gameData.gameState = 0;
-        gameInitial();
         if (gameData.userList.indexOf(ws.id) != -1) {
-            
-            gameData.userList.splice(gameData.userList.indexOf(ws.id), 1)
+            // 只在遊戲中的玩家斷線時才重置遊戲
+            gameData.gameState = 0;
+            gameInitial();
+            gameData.userList.splice(gameData.userList.indexOf(ws.id), 1);
             wss.clients.forEach(client => {
                 var leave = {
                     type: "disconnect",
@@ -92,10 +92,10 @@ wss.on('connection',function connection(ws){
                     id: '系統訊息',
                     date: Date.now()
                 };
-                client.send(JSON.stringify(leave))
+                client.send(JSON.stringify(leave));
                 console.log(leave);
-            })
-            console.log(ws.id + ' Close connected')        
+            });
+            console.log(ws.id + ' Close connected');
         }
     });
 });
