@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  board_game_web:
+    build: .
+    container_name: board_game_web
+    ports:
+      - "${PORT:-3000}:3000"
+    restart: unless-stopped

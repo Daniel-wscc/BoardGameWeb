@@ -1,4 +1,5 @@
 {
+  "name": "board-game-web",
   "dependencies": {
     "express": "^4.18.1",
     "socket.io": "^4.5.1",
@@ -7,11 +8,19 @@
   "devDependencies": {
     "@babel/register": "^7.23.7",
     "chai": "^5.1.0",
-    "mocha": "^10.3.0"
+    "cross-env": "^10.1.0",
+    "javascript-obfuscator": "^5.4.1",
+    "mocha": "^10.3.0",
+    "nx": "22.6.4",
+    "vite": "^8.0.7",
+    "vite-plugin-javascript-obfuscator": "^3.1.0"
   },
   "scripts": {
     "test": "mocha",
-    "simulate": "node test/gameSimulation.js"
+    "simulate": "node test/gameSimulation.js",
+    "dev": "vite",
+    "build": "vite build"
   },
-  "type": "commonjs"
+  "type": "commonjs",
+  "nx": {}
 }

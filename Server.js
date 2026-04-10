@@ -1,27 +1,28 @@
 //import express 和 ws 套件
 const express = require('express')
-const https = require('https');
-const fs = require('fs');
+const http = require('http');
+// const fs = require('fs');
 const SocketServer = require('ws').Server
 
 //指定開啟的 port
 const PORT = 3000
 
-// 讀取 SSL 憑證
-const privateKey = fs.readFileSync('./CA/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('./CA/cert.pem', 'utf8');
-const ca = fs.readFileSync('./CA/chain.pem', 'utf8'); // (可選) 有時需要中介憑證
+// 用 NAS 的反向代理處理 SSL，後端直接用一般的 HTTP
+// const privateKey = fs.readFileSync('./CA/privkey.pem', 'utf8');
+// const certificate = fs.readFileSync('./CA/cert.pem', 'utf8');
+// const ca = fs.readFileSync('./CA/chain.pem', 'utf8'); // (可選) 有時需要中介憑證
 
-const credentials = { key: privateKey, cert: certificate, ca: ca };
+// const credentials = { key: privateKey, cert: certificate, ca: ca };
 
 //創建 express 的物件，並綁定及監聽 3000 port ，且設定開啟後在 console 中提示
 // const server = express()
 //     .listen(PORT, () => console.log(`Listening on ${PORT}`))
+const path = require('path');
 const app = express();
 // 設置靜態文件目錄
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-const server = https.createServer(credentials, app).listen(PORT, () => console.log(`Listening on ${PORT}`));
+const server = http.createServer(app).listen(PORT, () => console.log(`Listening on ${PORT}`));
 //將 express 交給 SocketServer 開啟 WebSocket 的服務
 const wss = new SocketServer({ server });
 

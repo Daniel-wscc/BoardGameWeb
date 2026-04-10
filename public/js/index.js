@@ -1,5 +1,9 @@
 //使用 WebSocket 的網址向 Server 開啟連結
-let ws = new WebSocket('wss://' + window.location.hostname + ':3000');
+let protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+let wsUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+    ? protocol + window.location.hostname + ':3000' 
+    : protocol + window.location.hostname;
+let ws = new WebSocket(wsUrl);
 
 function getLength(str){
     return str.replace(/[^\x00-\xff]/g,"OO").length;
