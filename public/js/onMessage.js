@@ -21,6 +21,9 @@ var messageHandlers = {
         gameState = 1;
         $('#nickError').html("遊戲已經開始，請稍後加入");
     },
+    duplicateName: function(msg) {
+        $('#nickError').html("<b>房間內已有相同名稱，請重新命名</b>");
+    },
     disconnect: function(msg) {
         initial();
         $('#nickError').html("");

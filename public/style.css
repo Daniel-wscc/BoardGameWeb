@@ -1,599 +1,1441 @@
-/* @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css); */
-body{
-    /* 网页 */
+/* ============================================
+   Fantasy Board Game - Dark Medieval Theme
+   Responsive Design (Desktop + Tablet + Mobile)
+   ============================================ */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=MedievalSharp&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+/* --- CSS Variables --- */
+:root {
+    --bg-darkest: #0a0a14;
+    --bg-dark: #12121f;
+    --bg-panel: #1a1a2e;
+    --bg-card: #16213e;
+    --bg-input: #0f3460;
+    --gold: #d4a843;
+    --gold-light: #f0d78c;
+    --gold-dark: #a67c2e;
+    --accent-red: #c0392b;
+    --accent-red-glow: #e74c3c;
+    --accent-blue: #2980b9;
+    --accent-blue-glow: #3498db;
+    --accent-cyan: #1abc9c;
+    --accent-purple: #8e44ad;
+    --text-primary: #e8d5b7;
+    --text-secondary: #b8a080;
+    --text-highlight: #f0d78c;
+    --border-ornate: #6b5b3e;
+    --border-gold: #d4a843;
+    --shadow-gold: rgba(212, 168, 67, 0.3);
+    --shadow-dark: rgba(0, 0, 0, 0.6);
+    --parchment: #2a2215;
+    --parchment-light: #3d3222;
+}
+
+/* --- Global Reset & Base --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     position: relative;
     width: 1920px;
     height: 937px;
-
-
-    background: rgb(0, 109, 117);
+    background: var(--bg-darkest);
+    background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(138, 100, 40, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 50%, rgba(40, 60, 138, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 0%, rgba(212, 168, 67, 0.04) 0%, transparent 40%);
+    font-family: 'Noto Sans TC', 'MedievalSharp', serif;
+    color: var(--text-primary);
+    overflow: hidden;
 }
-.input-chat{
-    /* 輸入框 */
+
+body::before {
+    content: '';
     position: absolute;
-    width: 788px;
-    height: 46px;
-    top: 839px;
-    left: 613px;
-
-
-    background: rgb(0, 71, 79);
-    border-radius: 0px 0px 25px 25px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        repeating-linear-gradient(
+            0deg, transparent, transparent 40px,
+            rgba(212, 168, 67, 0.015) 40px, rgba(212, 168, 67, 0.015) 41px
+        ),
+        repeating-linear-gradient(
+            90deg, transparent, transparent 40px,
+            rgba(212, 168, 67, 0.015) 40px, rgba(212, 168, 67, 0.015) 41px
+        );
+    pointer-events: none;
+    z-index: 0;
 }
-.iframe-chat{
-   /* 聊天室 */
+
+/* =============================================
+   LOGIN SCREEN
+   ============================================= */
+#nickWrap {
     position: absolute;
-    width: 788px;
-    height: 268px;
-    top: 571px;
-    left: 613px;
-
-
-    background: rgb(19, 168, 168);
-    border-radius: 25px 25px 0px 0px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    padding: 60px 80px;
+    background: linear-gradient(145deg, var(--bg-panel), var(--bg-dark));
+    border: 2px solid var(--border-ornate);
+    border-radius: 16px;
+    box-shadow:
+        0 0 40px rgba(212, 168, 67, 0.15),
+        0 0 80px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(212, 168, 67, 0.1);
 }
-input[type="text" i]{
-    background:rgba(0, 0, 0, 0);
-    border-color:rgba(0, 0, 0, 0);
-    width: 698px;
-    left: 633px;
-    margin-left: 20px;
-    margin-top: 10px;
-}
-.onlineList{
-    /* 線上名單 */
+
+#nickWrap::before {
+    content: '';
     position: absolute;
-    width: 448px;
-    height: 268px;
-    top: 617px;
-    left: 1437px;
-
-
-    background: rgb(19, 168, 168);
-    border-radius: 0px 0px 25px 25px;
+    top: -2px;
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
-#listTitle{
-    /* 線上玩家 */
+
+#nickWrap::after {
+    content: '';
     position: absolute;
-    width: 96px;
-    height: 36px;
-    top: 5px;
-    left: 176px;
+    bottom: -2px;
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+}
 
+.form-signin-heading {
+    font-family: 'Cinzel Decorative', 'MedievalSharp', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold-light);
+    text-shadow: 0 0 20px rgba(212, 168, 67, 0.4), 0 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
 
-    color: rgb(0, 0, 0);
-    font-family: 'Noto Sans SC';
-    font-size: 24px;
-    font-weight: 900;
-    line-height: 36px;
-    letter-spacing: 0px;
+#nickError {
+    color: var(--accent-red-glow) !important;
+    font-family: 'Noto Sans TC', sans-serif;
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+}
+
+#input_Nickname {
+    width: 320px;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-family: 'Noto Sans TC', sans-serif;
+    color: var(--text-primary) !important;
+    background: var(--bg-darkest) !important;
+    border: 1px solid var(--border-ornate) !important;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#input_Nickname:focus {
+    border-color: var(--gold) !important;
+    box-shadow: 0 0 15px rgba(212, 168, 67, 0.2);
+}
+
+#btn_Nickname {
+    padding: 12px 32px;
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--bg-darkest);
+    background: linear-gradient(180deg, var(--gold-light), var(--gold), var(--gold-dark));
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3);
+}
+
+#btn_Nickname:hover {
+    background: linear-gradient(180deg, #f5e0a0, var(--gold-light), var(--gold));
+    box-shadow: 0 4px 25px rgba(212, 168, 67, 0.5);
+    transform: translateY(-1px);
+}
+
+/* =============================================
+   MAIN GAME AREA — DESKTOP (default 1920px)
+   ============================================= */
+#contentWrap {
+    position: relative;
+    z-index: 1;
+}
+
+#desktop {
+    position: absolute;
+    width: 1850px;
+    height: 516px;
+    top: 33px;
+    left: 35px;
+    background: linear-gradient(135deg, var(--bg-panel) 0%, var(--bg-card) 50%, var(--bg-panel) 100%);
+    border-radius: 20px;
+    border: 2px solid var(--border-ornate);
+    box-shadow:
+        0 0 30px rgba(0, 0, 0, 0.5),
+        inset 0 0 60px rgba(0, 0, 0, 0.3),
+        0 0 60px rgba(212, 168, 67, 0.05);
+}
+
+/* --- Player Cards (Desktop) --- */
+.player {
+    border: 1px solid var(--border-ornate) !important;
+    background: linear-gradient(145deg, #1c2444, #151d35) !important;
+    border-radius: 16px !important;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(212, 168, 67, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.player:hover {
+    border-color: var(--gold) !important;
+    box-shadow:
+        0 4px 20px rgba(212, 168, 67, 0.2),
+        0 0 30px rgba(212, 168, 67, 0.1),
+        inset 0 1px 0 rgba(212, 168, 67, 0.15);
+    transform: translateY(-2px);
+}
+
+#player0 { position: absolute; width: 346px; height: 234px; top: 57px; left: 55px; }
+#player1 { position: absolute; width: 346px; height: 234px; top: 57px; left: 421px; }
+#player2 { position: absolute; width: 346px; height: 234px; top: 57px; left: 787px; }
+#player3 { position: absolute; width: 346px; height: 234px; top: 57px; left: 1153px; }
+#player4 { position: absolute; width: 346px; height: 234px; top: 57px; left: 1519px; }
+#player5 { position: absolute; width: 346px; height: 234px; top: 300px; left: 55px; }
+#player6 { position: absolute; width: 346px; height: 234px; top: 300px; left: 421px; }
+#player7 { position: absolute; width: 346px; height: 234px; top: 300px; left: 787px; }
+#player8 { position: absolute; width: 346px; height: 234px; top: 300px; left: 1153px; }
+#player9 { position: absolute; width: 346px; height: 234px; top: 300px; left: 1519px; }
+
+/* --- Player Card Internals --- */
+.playerPic {
+    position: absolute;
+    width: 88px;
+    height: 89px;
+    top: 0;
+    left: 5px;
+    border-radius: 12px;
+    border: 2px solid var(--border-ornate);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.selection1, .selection2, .selection3 {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(10, 10, 20, 0.7);
+    border: 2px solid var(--border-ornate);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+.selection1 { top: 97px; left: 23px; }
+.selection2 { top: 97px; left: 66px; }
+.selection3 { top: 97px; left: 109px; }
+
+.item1, .item2, .item3, .item4, .item5, .item6 {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-darkest);
+    border-radius: 8px;
+    border: 1px solid rgba(107, 91, 62, 0.5);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.item1 { top: 136px; left: 23px; }
+.item2 { top: 136px; left: 66px; }
+.item3 { top: 136px; left: 109px; }
+.item4 { top: 178px; left: 23px; }
+.item5 { top: 178px; left: 66px; }
+.item6 { top: 178px; left: 109px; }
+
+.nickname {
+    position: absolute;
+    width: 120px;
+    height: 18px;
+    top: 22px;
+    left: 90px;
+    color: var(--gold-light);
+    font-family: 'Cinzel', 'MedievalSharp', serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 1px;
     text-align: right;
-
-
-
     display: flex;
     flex-direction: row;
     align-items: center;
+    text-shadow: 0 0 8px rgba(212, 168, 67, 0.3), 0 1px 2px rgba(0, 0, 0, 0.5);
 }
-div.listTitle{
-    /* 線上玩家 */
-    position: absolute;
-    width: 448px;
-    height: 46px;
-    top: 571px;
-    left: 1437px;
 
-    background: rgb(54, 207, 201);
-    border-radius: 25px 25px 0px 0px;
+.knife {
+    position: absolute;
+    width: 32px;
+    height: 158px;
+    top: 52px;
+    left: 161px;
+    filter: drop-shadow(0 0 6px rgba(212, 168, 67, 0.4));
 }
-/* #btn_send{
-    background: rgb(77, 139, 255);
-} */
-#help{
-    /* 幫助 */
+
+.card {
+    position: absolute;
+    width: 111px;
+    height: 194px;
+    top: 16px;
+    left: 213px;
+    background: linear-gradient(145deg, #1a1a2e, #0a0a14);
+    border-radius: 10px;
+    border: 2px solid var(--border-ornate);
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+img {
+    background-position: center center;
+    background-size: contain;
+}
+
+/* =============================================
+   BOTTOM PANELS — DESKTOP
+   ============================================= */
+#help {
     position: absolute;
     width: 542px;
     height: 314px;
     top: 571px;
     left: 35px;
-
-
     display: flex;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(145deg, var(--bg-panel), var(--bg-card));
+    border-radius: 16px;
+    border: 2px solid var(--border-ornate);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
 
+.iframe-chat {
+    position: absolute;
+    width: 788px;
+    height: 268px;
+    top: 571px;
+    left: 613px;
+    background: linear-gradient(180deg, var(--bg-panel), var(--bg-dark));
+    border-radius: 16px 16px 0px 0px;
+    border: 2px solid var(--border-ornate);
+    border-bottom: 1px solid rgba(107, 91, 62, 0.3);
+}
 
-    background: rgb(19, 168, 168);
-    border-radius: 25px;
-}
-img{
-    /* max-width:100%;
-    max-height:100%; */
-    background-position:center center;
-    background-size:contain;
-}
-#btn_back{
-    /* 画板 3 */
+.input-chat {
     position: absolute;
-    width: 102px;
-    height: 38px;
-    top: 579px;
-    left: 1280px;
-    /* 矩形 9 */
-    background: rgb(64, 93, 229);
-    border: 1px solid rgb(255, 255, 255);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 5px;
+    width: 788px;
+    height: 46px;
+    top: 839px;
+    left: 613px;
+    background: var(--bg-darkest);
+    border-radius: 0px 0px 16px 16px;
+    border: 2px solid var(--border-ornate);
+    border-top: none;
 }
-#img-back{
-    /* 上一步 */
+
+input[type="text" i] {
+    background: rgba(0, 0, 0, 0) !important;
+    border-color: rgba(0, 0, 0, 0) !important;
+    width: 698px;
+    left: 633px;
+    margin-left: 20px;
+    margin-top: 10px;
+    color: var(--text-primary) !important;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px;
+}
+
+input[type="text" i]::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+div.listTitle {
     position: absolute;
-    width: 24px;
-    height: 25.89px;
+    width: 448px;
+    height: 46px;
+    top: 571px;
+    left: 1437px;
+    background: linear-gradient(180deg, var(--parchment-light), var(--parchment));
+    border-radius: 16px 16px 0px 0px;
+    border: 2px solid var(--border-ornate);
+    border-bottom: 1px solid rgba(107, 91, 62, 0.3);
+}
+
+#listTitle {
+    position: absolute;
+    width: 120px;
+    height: 36px;
     top: 5px;
-    left: 9px;
-}
-#tb_back{
-    /* 返回 */
-    position: absolute;
-    width: 56px;
-    height: 21px;
-    top: 7px;
-    left: 39px;
-
-
-    color: rgb(255, 255, 255);
-    font-family: Noto Sans SC;
-    font-size: 24px;
-    font-weight: 400;
+    left: 164px;
+    color: var(--gold-light);
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
     line-height: 36px;
-    letter-spacing: 0px;
+    letter-spacing: 2px;
     text-align: center;
-
-
-
     display: flex;
     flex-direction: row;
     align-items: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
-#btn_start{
-    /* 開始 */
+
+.onlineList {
+    position: absolute;
+    width: 448px;
+    height: 268px;
+    top: 617px;
+    left: 1437px;
+    background: linear-gradient(180deg, var(--bg-panel), var(--bg-dark));
+    border-radius: 0px 0px 16px 16px;
+    border: 2px solid var(--border-ornate);
+    border-top: none;
+}
+
+#soundCoolDown {
+    position: absolute;
+    width: 788px;
+    height: 8px;
+    top: 830px;
+    left: 613px;
+    background: var(--bg-darkest);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#soundCoolDown .ui-progressbar-value {
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(212, 168, 67, 0.5);
+}
+
+/* --- Sound Menu --- */
+#menu {
+    position: absolute;
+    width: 180px;
+    height: auto;
+    top: 709px;
+    left: 1210px;
+    background: linear-gradient(145deg, var(--bg-panel), var(--bg-dark));
+    border: 2px solid var(--border-ornate);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    padding: 6px 0;
+    overflow: hidden;
+    z-index: 100;
+}
+
+#menu li {
+    list-style: none;
+    transition: all 0.2s ease;
+}
+
+#menu li div {
+    padding: 8px 16px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#menu li:hover div {
+    background: rgba(212, 168, 67, 0.15);
+    color: var(--gold-light);
+    padding-left: 22px;
+}
+
+#menu.ui-menu { padding: 6px 0; }
+#menu .ui-menu-item-wrapper { padding: 8px 16px; border: none; }
+#menu .ui-menu-item-wrapper.ui-state-active,
+#menu .ui-state-focus {
+    background: rgba(212, 168, 67, 0.15) !important;
+    color: var(--gold-light) !important;
+    border: none !important;
+    margin: 0;
+}
+
+/* =============================================
+   BUTTONS — DESKTOP
+   ============================================= */
+#btn_start {
     position: absolute;
     width: 439px;
     height: 132px;
     top: 639px;
     left: 788px;
     box-sizing: border-box;
-
-
-    background: rgb(255, 77, 79);
-    border: 1px solid rgb(0, 0, 0);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 25px;
+    background: linear-gradient(145deg, #8b2020, var(--accent-red), #8b2020);
+    border: 2px solid var(--gold-dark);
+    box-shadow:
+        0 6px 25px rgba(192, 57, 43, 0.4),
+        0 0 40px rgba(192, 57, 43, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
-#tb_start{
+
+#btn_start::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+    transition: left 0.5s ease;
+}
+
+#btn_start:hover::before { left: 100%; }
+
+#btn_start:hover {
+    background: linear-gradient(145deg, #a02525, #d63031, #a02525);
+    box-shadow:
+        0 6px 30px rgba(192, 57, 43, 0.5),
+        0 0 50px rgba(192, 57, 43, 0.3);
+    transform: translateY(-2px);
+}
+
+#tb_start {
     width: 439px;
     height: 132px;
     top: 639px;
     left: 788px;
-
-
-    color: rgba(255, 255, 255, 0.9);
-    font-family: Noto Sans SC;
-    font-size: 96px;
-    font-weight: 400;
+    color: var(--text-primary);
+    font-family: 'Cinzel Decorative', 'MedievalSharp', serif;
+    font-size: 72px;
+    font-weight: 700;
     line-height: 24px;
-    letter-spacing: -1px;
+    letter-spacing: 4px;
     text-align: center;
-
     flex-direction: row;
     align-items: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 200, 100, 0.2);
 }
-#desktop{
-    /* 桌面 */
-    position: absolute;
-    width: 1850px;
-    height: 516px;
-    top: 33px;
-    left: 35px;
 
-    background: rgb(19, 168, 168);
-    border-radius: 50px;
-}
-#choose_title{
+#btn_back {
     position: absolute;
-    width: 192px;
-    height: 60px;
+    width: 110px;
+    height: 40px;
+    top: 579px;
+    left: 1280px;
+    background: linear-gradient(145deg, var(--bg-card), var(--bg-panel));
+    border: 1px solid var(--border-ornate);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#btn_back:hover {
+    border-color: var(--gold);
+    box-shadow: 0 3px 15px rgba(212, 168, 67, 0.2);
+}
+
+#img-back {
+    position: absolute;
+    width: 24px;
+    height: 25.89px;
+    top: 5px;
+    left: 9px;
+    filter: brightness(0.8) sepia(1) hue-rotate(20deg) saturate(0.5);
+}
+
+#tb_back {
+    position: absolute;
+    width: 56px;
+    height: 21px;
     top: 7px;
-    left: 236px;
-
-
-    color: rgb(255, 255, 255);
-    font-family: Noto Sans SC;
-    font-size: 64px;
-    font-weight: 500;
-    line-height: 95px;
-    letter-spacing: 0px;
-    text-align: right;
-
-
-
+    left: 39px;
+    color: var(--text-primary);
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 36px;
+    letter-spacing: 1px;
+    text-align: center;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.chooseLeft{
-    /* 矩形 9 */
-    position: absolute;
-    width: 277px;
-    height: 199px;
-    top: 73px;
-    left: 32px;
-
-
-    background: rgb(255, 77, 79);
-    border-radius: 25px;
-}
-
-.chooseRight{
-    position: absolute;
-    width: 277px;
-    height: 199px;
-    top: 73px;
-    left: 355px;
-
-
-    background: rgb(92,219,211);
-    border-radius: 25px;
-}
-
-.choose{
-    /* 矩形 8 */
+/* =============================================
+   CHOICE DIALOGS — DESKTOP
+   ============================================= */
+.choose {
     position: absolute;
     width: 664px;
     height: 310px;
     top: 136px;
     left: 628px;
-
-
-    background: rgb(0, 71, 79);
-    border-radius: 25px;
+    background: linear-gradient(145deg, var(--bg-panel), var(--bg-dark));
+    border: 2px solid var(--border-ornate);
+    border-radius: 16px;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(212, 168, 67, 0.08);
+    z-index: 50;
 }
 
-.knife{
-    /* 矩形 8 */
+.choose::before {
+    content: '';
     position: absolute;
-    width: 32px;
-    height: 158px;
-    top: 52px;
-    left: 161px;
+    top: -2px;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    border-radius: 2px;
 }
-.card{
-    /* 矩形 7 */
+
+#choose_title {
     position: absolute;
-    width: 111px;
-    height: 194px;
-    top: 16px;
-    left: 213px;
-
-
-    background: rgb(0, 109, 117);
-    border-radius: 10px;
-}
-.nickname{
-    /* player0 */
-    position: absolute;
-    width: 120px;
-    height: 18px;
-    top: 22px;
-    left: 90px;
-
-
-    color: rgb(255, 255, 255);
-    font-family: 'fantasy';
-    font-size: 24px;
-    font-weight: 900;
-    line-height: 18px;
-    letter-spacing: 0px;
+    width: 192px;
+    height: 60px;
+    top: 7px;
+    left: 236px;
+    color: var(--gold-light);
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 95px;
+    letter-spacing: 3px;
     text-align: right;
-
     display: flex;
     flex-direction: row;
     align-items: center;
+    text-shadow: 0 0 15px rgba(212, 168, 67, 0.3), 0 2px 4px rgba(0, 0, 0, 0.5);
 }
-#player0{
+
+.chooseLeft {
     position: absolute;
-    width: 346px;
-    height: 234px;
-    top: 57px;
-    left: 55px;
-
-    border: 1px solid rgb(0, 0, 0);
-    background: rgb(8, 151, 156);
-    border-radius: 25px;
+    width: 277px;
+    height: 199px;
+    top: 73px;
+    left: 32px;
+    background: linear-gradient(145deg, #8b2020, var(--accent-red), #8b2020);
+    border: 2px solid rgba(231, 76, 60, 0.5);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(192, 57, 43, 0.3);
 }
-#player1{
+
+.chooseLeft:hover {
+    background: linear-gradient(145deg, #a02525, #d63031, #a02525);
+    box-shadow: 0 4px 20px rgba(192, 57, 43, 0.5), 0 0 30px rgba(192, 57, 43, 0.2);
+    transform: translateY(-2px);
+}
+
+.chooseRight {
     position: absolute;
-    width: 346px;
-    height: 234px;
-    top: 57px;
-    left: 421px;
-
-    border: 1px solid rgb(0, 0, 0);
-    background: rgb(8, 151, 156);
-    border-radius: 25px;
+    width: 277px;
+    height: 199px;
+    top: 73px;
+    left: 355px;
+    background: linear-gradient(145deg, #1a6b5a, var(--accent-cyan), #1a6b5a);
+    border: 2px solid rgba(26, 188, 156, 0.5);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(26, 188, 156, 0.3);
 }
-#player2{
-    position: absolute;
-    width: 346px;
-    height: 234px;
-    top: 57px;
-    left: 787px;
 
-    border: 1px solid rgb(0, 0, 0);
-    background: rgb(8, 151, 156);
-    border-radius: 25px;
+.chooseRight:hover {
+    background: linear-gradient(145deg, #20826e, #1dd1a1, #20826e);
+    box-shadow: 0 4px 20px rgba(26, 188, 156, 0.5), 0 0 30px rgba(26, 188, 156, 0.2);
+    transform: translateY(-2px);
 }
-#player3{
-    position: absolute;
-    width: 346px;
-    height: 234px;
-    top: 57px;
-    left: 1153px;
 
-    border: 1px solid rgb(0, 0, 0);
-    background: rgb(8, 151, 156);
-    border-radius: 25px;
-}
-#player4{
-    position: absolute;
-    width: 346px;
-    height: 234px;
-    top: 57px;
-    left: 1519px;
-
-    border: 1px solid rgb(0, 0, 0);
-    background: rgb(8, 151, 156);
-    border-radius: 25px;
-}
-#player5{
-    position: absolute;
-    width: 346px;
-    height: 234px;
-    top: 300px;
-    left: 55px;
-
-    border: 1px solid rgb(0, 0, 0);
-    background: rgb(8, 151, 156);
-    border-radius: 25px;
-}
-#player6{
-    position: absolute;
-    width: 346px;
-    height: 234px;
-    top: 300px;
-    left: 421px;
-
-    border: 1px solid rgb(0, 0, 0);
-    background: rgb(8, 151, 156);
-    border-radius: 25px;
-}
-#player7{
-    position: absolute;
-    width: 346px;
-    height: 234px;
-    top: 300px;
-    left: 787px;
-
-    border: 1px solid rgb(0, 0, 0);
-    background: rgb(8, 151, 156);
-    border-radius: 25px;
-}
-#player8{
-    position: absolute;
-    width: 346px;
-    height: 234px;
-    top: 300px;
-    left: 1153px;
-
-    border: 1px solid rgb(0, 0, 0);
-    background: rgb(8, 151, 156);
-    border-radius: 25px;
-}
-#player9{
-    position: absolute;
-    width: 346px;
-    height: 234px;
-    top: 300px;
-    left: 1519px;
-
-    border: 1px solid rgb(0, 0, 0);
-    background: rgb(8, 151, 156);
-    border-radius: 25px;
-}
-.playerPic{
-    /* 头像 */
-    position: absolute;
-    width: 88px;
-    height: 89px;
-    top: 0;
-    left: 5px;
-}
-.selection1{
-    /* 椭圆 1 */
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 97px;
-    left: 23px;
-    border-radius: 50%;
-
-    background: rgba(0, 0, 0, 0.6);
-}
-.selection2{
-    /* 椭圆 1 */
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 97px;
-    left: 66px;
-    border-radius: 50%;
-
-    background: rgba(0, 0, 0, 0.6);
-}
-.selection3{
-    /* 椭圆 1 */
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 97px;
-    left: 109px;
-    border-radius: 50%;
-
-    background: rgba(0, 0, 0, 0.6);
-}
-.item1{
-    /* 矩形 6 */
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 136px;
-    left: 23px;
-
-
-    background: rgb(0, 109, 117);
-    border-radius: 10px;
-}
-.item2{
-    /* 矩形 6 */
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 136px;
-    left: 66px;
-
-
-    background: rgb(0, 109, 117);
-    border-radius: 10px;
-}
-.item3{
-    /* 矩形 6 */
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 136px;
-    left: 109px;
-
-
-    background: rgb(0, 109, 117);
-    border-radius: 10px;
-}
-.item4{
-    /* 矩形 6 */
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 178px;
-    left: 23px;
-
-
-    background: rgb(0, 109, 117);
-    border-radius: 10px;
-}
-.item5{
-    /* 矩形 6 */
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 178px;
-    left: 66px;
-
-
-    background: rgb(0, 109, 117);
-    border-radius: 10px;
-}
-.item6{
-    /* 矩形 6 */
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 178px;
-    left: 109px;
-
-
-    background: rgb(0, 109, 117);
-    border-radius: 10px;
-}
-#menu{
-    /* 矩形 5 */
-    position: absolute;
-    width: 151px;
-    height: 124px;
-    top: 709px;
-    left: 1230px;
-
-
-    background: rgb(255, 255, 255);
-    border-radius: 10px;
-}
-#soundCoolDown{
-    /* 矩形 10 */
-    position: absolute;
-    width: 788px;
-    height: 11px;
-    top: 828px;
-    left: 613px;
-
-
-    background: rgb(196, 196, 196);
-}
-.attackOrPass{
-    /* 攻擊 */
+.attackOrPass {
     position: absolute;
     width: 128px;
     height: 60px;
     top: 70px;
     left: 74px;
-
-
-    color: rgb(255, 255, 255);
-    font-family: Noto Sans SC;
-    font-size: 64px;
-    font-weight: 500;
+    color: var(--text-primary);
+    font-family: 'Cinzel', 'Noto Sans TC', serif;
+    font-size: 52px;
+    font-weight: 700;
     line-height: 95px;
-    letter-spacing: 0px;
+    letter-spacing: 2px;
     text-align: right;
-
-
-
     display: flex;
     flex-direction: row;
     align-items: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
-.skill{
-    /* 圆 1 */
+
+/* --- Skill Buttons --- */
+.skill {
     position: absolute;
     width: 130px;
     height: 126px;
     top: 0;
     border-radius: 50%;
+    background: linear-gradient(145deg, #0a1628, #0d1f3d);
+    border: 2px solid var(--border-ornate);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(0, 0, 0, 0.3);
+    background-size: cover;
+    background-position: center;
+}
 
-    background: rgb(0, 35, 41);
+.skill:hover {
+    border-color: var(--gold);
+    box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3), 0 0 25px rgba(212, 168, 67, 0.15);
+    transform: scale(1.05);
 }
-.skill2{
-    left: 205px;
-}
-.skill3{
-    left: 410px;
-}
-.wrapper{
-    /* 画板 4 */
+
+.skill1 { left: 0; }
+.skill2 { left: 205px; }
+.skill3 { left: 410px; }
+
+.wrapper {
     position: absolute;
     width: 540px;
     height: 126px;
     top: 104px;
     left: 62px;
 }
-/* 让div根据内容改变大小
-div{ width:auto; display:inline-block !important; display:inline; } */
+
+/* --- Sound Button --- */
+#sound {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    filter: brightness(0.85) sepia(0.3) hue-rotate(20deg);
+}
+
+#sound:hover {
+    filter: brightness(1) sepia(0.3) hue-rotate(20deg);
+    box-shadow: 0 0 10px rgba(212, 168, 67, 0.3);
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-darkest); }
+::-webkit-scrollbar-thumb { background: var(--border-ornate); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-dark); }
+
+/* --- jQuery UI Overrides --- */
+.ui-widget { font-family: 'Noto Sans TC', sans-serif; }
+.ui-tooltip {
+    background: var(--bg-panel) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-ornate) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+    font-size: 13px;
+    padding: 8px 14px;
+}
+.ui-progressbar {
+    background: var(--bg-darkest) !important;
+    border: 1px solid var(--border-ornate) !important;
+    border-radius: 4px !important;
+}
+.ui-progressbar-value {
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold)) !important;
+    border-radius: 3px !important;
+}
+
+/* --- Animations --- */
+@keyframes goldPulse {
+    0%, 100% { box-shadow: 0 0 15px rgba(212, 168, 67, 0.2); }
+    50% { box-shadow: 0 0 25px rgba(212, 168, 67, 0.4); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.player:active { animation: goldPulse 1s ease-in-out; }
+
+/* --- Bootstrap Overrides --- */
+.btn-primary {
+    background: linear-gradient(180deg, var(--gold-light), var(--gold), var(--gold-dark)) !important;
+    border-color: var(--gold) !important;
+    color: var(--bg-darkest) !important;
+}
+.btn-primary:hover {
+    background: linear-gradient(180deg, #f5e0a0, var(--gold-light), var(--gold)) !important;
+    border-color: var(--gold-light) !important;
+}
+
+
+/* =============================================================
+   RESPONSIVE — TABLET (max-width: 1200px)
+   Scale-down approach: shrink the entire fixed layout to fit
+   ============================================================= */
+@media screen and (max-width: 1200px) and (min-width: 1025px) {
+    body {
+        width: 100vw;
+        height: auto;
+        min-height: 100vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        transform-origin: top left;
+    }
+
+    /* Scale the entire content to fit viewport width */
+    .container {
+        transform: scale(calc(100vw / 1920));
+        transform-origin: top left;
+        width: 1920px;
+        height: 937px;
+    }
+
+    #nickWrap {
+        /* Login stays centered in real viewport */
+        position: fixed;
+        transform: translate(-50%, -50%);
+    }
+}
+
+
+/* =============================================================
+   RESPONSIVE — MOBILE (max-width: 1024px)
+   Complete restructure: vertical flow layout
+   ============================================================= */
+@media screen and (max-width: 1024px) {
+    body {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 0;
+    }
+
+    body::before {
+        position: fixed;
+    }
+
+    .container {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* --- Login Screen (Mobile) --- */
+    #nickWrap {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        margin: 15vh auto 0;
+        padding: 30px 20px;
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .form-signin-heading {
+        font-size: 22px;
+        letter-spacing: 1px;
+    }
+
+    #input_Nickname {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 16px;
+        margin-bottom: 12px;
+    }
+
+    #btn_Nickname {
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 16px;
+        margin-top: 4px;
+    }
+
+    #nickWrap > div {
+        margin: 16px 0 !important;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* --- Main Content Wrap (Mobile) --- */
+    #contentWrap {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 20px;
+    }
+
+    #contentWrap > div {
+        position: relative !important;
+        width: 100%;
+    }
+
+    /* --- Hide Desktop Board Iframe (Mobile) --- */
+    #desktop {
+        display: none !important;
+    }
+
+    /* --- Player Cards Grid (Mobile) --- */
+    #players-container {
+        position: relative !important;
+        width: 100%;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 10px;
+        margin-top: 8px;
+    }
+
+    /* Reset all absolute player positioning for grid flow */
+    #player0, #player1, #player2, #player3, #player4,
+    #player5, #player6, #player7, #player8, #player9 {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 160px;
+        aspect-ratio: 346 / 234;
+    }
+
+    /* Scale player card internals to fit smaller cards */
+    .player {
+        overflow: hidden;
+    }
+
+    .playerPic {
+        width: 52px;
+        height: 53px;
+        top: 4px;
+        left: 4px;
+        border-radius: 8px;
+    }
+
+    .nickname {
+        top: 10px;
+        left: 56px;
+        width: auto;
+        font-size: 13px;
+        line-height: 16px;
+        letter-spacing: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: calc(100% - 120px);
+    }
+
+    .selection1, .selection2, .selection3 {
+        width: 22px;
+        height: 22px;
+    }
+    .selection1 { top: 62px; left: 10px; }
+    .selection2 { top: 62px; left: 38px; }
+    .selection3 { top: 62px; left: 66px; }
+
+    .item1, .item2, .item3, .item4, .item5, .item6 {
+        width: 22px;
+        height: 22px;
+        border-radius: 5px;
+    }
+    .item1 { top: 90px; left: 10px; }
+    .item2 { top: 90px; left: 38px; }
+    .item3 { top: 90px; left: 66px; }
+    .item4 { top: 118px; left: 10px; }
+    .item5 { top: 118px; left: 38px; }
+    .item6 { top: 118px; left: 66px; }
+
+    .knife {
+        width: 20px;
+        height: 100px;
+        top: 35px;
+        left: calc(100% - 90px);
+    }
+
+    .card {
+        width: 60px;
+        height: 105px;
+        top: 10px;
+        left: auto;
+        right: 6px;
+        border-radius: 6px;
+    }
+
+    /* --- Help Panel (Mobile) --- */
+    #help {
+        position: relative !important;
+        width: calc(100% - 20px) !important;
+        height: auto !important;
+        min-height: 180px;
+        top: auto !important;
+        left: auto !important;
+        margin: 10px auto;
+        padding: 10px;
+    }
+
+    #help img {
+        width: 100%;
+        height: auto;
+        max-height: 250px;
+        object-fit: contain;
+    }
+
+    /* --- Chat Section (Mobile) --- */
+    #chatWrap {
+        position: relative !important;
+        width: 100% !important;
+    }
+
+    .panel-body {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chatRoom {
+        position: relative;
+        width: 100%;
+    }
+
+    .iframe-chat {
+        position: relative !important;
+        width: calc(100% - 20px) !important;
+        height: 200px !important;
+        top: auto !important;
+        left: auto !important;
+        margin: 0 auto;
+        display: block;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .input-chat {
+        position: relative !important;
+        width: calc(100% - 20px) !important;
+        height: 44px !important;
+        top: auto !important;
+        left: auto !important;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        border-radius: 0 0 12px 12px;
+    }
+
+    .input-chat input[type="text" i] {
+        width: calc(100% - 60px) !important;
+        margin-left: 10px;
+        margin-top: 0;
+        font-size: 14px;
+    }
+
+    #sound {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    #soundCoolDown {
+        position: relative !important;
+        width: calc(100% - 20px) !important;
+        height: 6px !important;
+        top: auto !important;
+        left: auto !important;
+        margin: 2px auto 0;
+    }
+
+    /* --- Online List (Mobile) --- */
+    div.listTitle {
+        position: relative !important;
+        width: calc(100% - 20px) !important;
+        height: 40px !important;
+        top: auto !important;
+        left: auto !important;
+        margin: 12px auto 0;
+        border-radius: 12px 12px 0 0;
+    }
+
+    #listTitle {
+        position: relative;
+        width: 100%;
+        left: 0;
+        text-align: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    .onlineList {
+        position: relative !important;
+        width: calc(100% - 20px) !important;
+        height: 200px !important;
+        top: auto !important;
+        left: auto !important;
+        margin: 0 auto;
+        border-radius: 0 0 12px 12px;
+    }
+
+    .onlineList iframe {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* --- Sound Menu (Mobile) --- */
+    #menu {
+        position: fixed !important;
+        bottom: 80px;
+        left: 50% !important;
+        top: auto !important;
+        transform: translateX(-50%);
+        width: 200px;
+        z-index: 200;
+    }
+
+    #menu li div {
+        padding: 12px 16px;
+        font-size: 15px;
+    }
+
+    /* --- Start Button (Mobile) --- */
+    #btn_start {
+        position: relative !important;
+        width: calc(100% - 40px) !important;
+        height: 80px !important;
+        top: auto !important;
+        left: auto !important;
+        margin: 16px auto;
+        display: block;
+    }
+
+    #tb_start {
+        width: 100%;
+        height: 80px;
+        font-size: 40px;
+        letter-spacing: 2px;
+        line-height: 20px;
+    }
+
+    /* --- Back Button (Mobile) --- */
+    #btn_back {
+        position: fixed !important;
+        top: 10px !important;
+        left: auto !important;
+        right: 10px;
+        z-index: 100;
+        width: 90px;
+        height: 36px;
+    }
+
+    #img-back {
+        width: 20px;
+        height: 22px;
+        top: 6px;
+        left: 6px;
+    }
+
+    #tb_back {
+        font-size: 16px;
+        left: 30px;
+        top: 6px;
+    }
+
+    /* --- Choice Dialogs (Mobile) --- */
+    .choose {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%);
+        width: calc(100vw - 24px) !important;
+        max-width: 400px;
+        height: auto !important;
+        min-height: 240px;
+        padding-bottom: 16px;
+        z-index: 150;
+    }
+
+    #choose_title {
+        position: relative;
+        width: 100%;
+        top: auto;
+        left: auto;
+        text-align: center;
+        justify-content: center;
+        font-size: 32px;
+        line-height: 60px;
+        padding: 10px 0 0;
+        letter-spacing: 2px;
+    }
+
+    .chooseLeft, .chooseRight {
+        position: relative !important;
+        width: calc(50% - 20px) !important;
+        height: 120px !important;
+        top: auto !important;
+        left: auto !important;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .chooseLeft {
+        margin: 12px 6px 0 12px !important;
+    }
+
+    .chooseRight {
+        margin: 12px 12px 0 6px !important;
+    }
+
+    .attackOrPass {
+        position: relative;
+        width: auto;
+        height: auto;
+        top: auto;
+        left: auto;
+        font-size: 32px;
+        line-height: 1.2;
+        text-align: center;
+        justify-content: center;
+        padding: 30px 0;
+    }
+
+    /* --- Skill Buttons in Dialog (Mobile) --- */
+    .wrapper {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        top: auto !important;
+        left: auto !important;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        padding: 12px;
+        margin-top: 8px;
+    }
+
+    .skill {
+        position: relative !important;
+        left: auto !important;
+        width: 80px !important;
+        height: 78px !important;
+        flex-shrink: 0;
+    }
+
+    /* --- Touch-friendly tap targets --- */
+    .player {
+        min-height: 50px;
+        -webkit-tap-highlight-color: rgba(212, 168, 67, 0.2);
+    }
+
+    .player:hover {
+        transform: none;
+    }
+
+    .player:active {
+        border-color: var(--gold) !important;
+        box-shadow: 0 0 20px rgba(212, 168, 67, 0.3);
+    }
+
+    button {
+        -webkit-tap-highlight-color: rgba(212, 168, 67, 0.2);
+    }
+}
+
+
+/* =============================================================
+   RESPONSIVE — SMALL MOBILE (max-width: 400px)
+   Extra adjustments for very small screens
+   ============================================================= */
+@media screen and (max-width: 400px) {
+    #nickWrap {
+        width: 95%;
+        padding: 24px 14px;
+    }
+
+    .form-signin-heading {
+        font-size: 18px;
+    }
+
+    #players-container {
+        gap: 6px;
+        padding: 6px;
+    }
+
+    .player {
+        min-height: 140px;
+    }
+
+    .playerPic {
+        width: 42px;
+        height: 43px;
+    }
+
+    .nickname {
+        font-size: 11px;
+        left: 48px;
+        top: 8px;
+    }
+
+    .card {
+        width: 50px;
+        height: 88px;
+        top: 8px;
+    }
+
+    .knife {
+        width: 16px;
+        height: 80px;
+        top: 30px;
+    }
+
+    .selection1, .selection2, .selection3 {
+        width: 18px;
+        height: 18px;
+    }
+    .selection1 { top: 52px; left: 6px; }
+    .selection2 { top: 52px; left: 28px; }
+    .selection3 { top: 52px; left: 50px; }
+
+    .item1, .item2, .item3, .item4, .item5, .item6 {
+        width: 18px;
+        height: 18px;
+    }
+    .item1 { top: 76px; left: 6px; }
+    .item2 { top: 76px; left: 28px; }
+    .item3 { top: 76px; left: 50px; }
+    .item4 { top: 100px; left: 6px; }
+    .item5 { top: 100px; left: 28px; }
+    .item6 { top: 100px; left: 50px; }
+
+    .attackOrPass {
+        font-size: 26px;
+        padding: 20px 0;
+    }
+
+    #choose_title {
+        font-size: 26px;
+    }
+
+    #tb_start {
+        font-size: 32px;
+    }
+
+    .skill {
+        width: 65px !important;
+        height: 63px !important;
+    }
+}
+
+
+/* =============================================================
+   LANDSCAPE MOBILE — prevent awkward layout in landscape
+   ============================================================= */
+@media screen and (max-width: 1024px) and (orientation: landscape) {
+    #players-container {
+        grid-template-columns: repeat(5, 1fr) !important;
+        gap: 4px;
+        padding: 4px;
+    }
+
+    .player {
+        min-height: 120px !important;
+    }
+
+    .playerPic {
+        width: 36px;
+        height: 37px;
+    }
+
+    .nickname {
+        font-size: 10px;
+        left: 40px;
+        top: 6px;
+    }
+
+    .card {
+        width: 40px;
+        height: 70px;
+        top: 6px;
+    }
+
+    .knife {
+        width: 14px;
+        height: 70px;
+        top: 24px;
+    }
+
+    .selection1, .selection2, .selection3 {
+        width: 16px;
+        height: 16px;
+    }
+    .selection1 { top: 46px; left: 4px; }
+    .selection2 { top: 46px; left: 24px; }
+    .selection3 { top: 46px; left: 44px; }
+
+    .item1, .item2, .item3, .item4, .item5, .item6 {
+        width: 16px;
+        height: 16px;
+    }
+    .item1 { top: 66px; left: 4px; }
+    .item2 { top: 66px; left: 24px; }
+    .item3 { top: 66px; left: 44px; }
+    .item4 { top: 86px; left: 4px; }
+    .item5 { top: 86px; left: 24px; }
+    .item6 { top: 86px; left: 44px; }
+
+    .iframe-chat {
+        height: 140px !important;
+    }
+
+    .onlineList {
+        height: 140px !important;
+    }
+
+    #btn_start {
+        height: 60px !important;
+    }
+
+    #tb_start {
+        height: 60px;
+        font-size: 30px;
+    }
+
+    .choose {
+        min-height: 180px !important;
+    }
+
+    .chooseLeft, .chooseRight {
+        height: 80px !important;
+    }
+
+    .attackOrPass {
+        font-size: 24px;
+        padding: 18px 0;
+    }
+}

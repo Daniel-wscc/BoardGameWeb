@@ -2,6 +2,10 @@ const { broadcast, escapeHtml } = require('../utils/broadcast');
 
 function handleLoginMessage(wss, ws, gameData, msg) {
     if (gameData.gameState == 0) {
+        if (gameData.userList.includes(msg.id)) {
+            ws.send(JSON.stringify({ type: "duplicateName", text: "此名稱已被使用，請重新命名" }));
+            return;
+        }
         gameData.userList.push(msg.id);
         ws.id = msg.id;
         var welcome = {

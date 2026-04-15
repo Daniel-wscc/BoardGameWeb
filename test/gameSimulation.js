@@ -98,6 +98,7 @@ class Player {
         this.protectTargets = [];
         this.hasFan = false;
         this.hasMagicStaff = false;
+        this.isDead = false;
         this.received = [];
     }
     connect() {
@@ -152,9 +153,18 @@ function describeIndicator(exposeChar, indicatorNum) {
 
 // 對某玩家施加傷害
 // isSkillDamage: 被技能觸發的傷害不可再發動技能，只揭露指示物
+// helpRequester: 請求干涉的玩家（干涉情境下煉金術師技能的作用對象）
 // 回傳: 'alive' | 'dead'
-function dealDamage(target, attacker, allPlayers, gameData, isSkillDamage) {
-    if (target.exposedCount >= 3) return 'dead';
+function dealDamage(target, attacker, allPlayers, gameData, isSkillDamage, helpRequester) {
+    if (target.isDead) return 'dead';
+
+    // 已揭露3個指示物，再受傷害 = 致命一擊
+    if (target.exposedCount >= 3) {
+        target.isDead = true;
+        logStep('致命', C.red,
+            `${playerTag(target)} 已揭露所有指示物，受到致命傷害，${C.bold}陣亡${C.reset}!`);
+        return 'dead';
+    }
 
     target.exposedCount++;
     var indicatorNum = target.exposedCount;
@@ -175,16 +185,16 @@ function dealDamage(target, attacker, allPlayers, gameData, isSkillDamage) {
     if (!isSkillDamage && indicatorNum === 1 && !target.skillActivated) {
         target.skillActivated = true;
         var skillType = target.exposeStr[0];
-        activateSkill(skillType, target, attacker, allPlayers, gameData);
+        activateSkill(skillType, target, attacker, allPlayers, gameData, helpRequester);
     } else if (isSkillDamage && indicatorNum === 1 && !target.skillActivated) {
         logStep('效果', C.dim,
             `${playerTag(target)} 因技能傷害揭露指示物，不發動技能`);
     }
 
-    return target.exposedCount >= 3 ? 'dead' : 'alive';
+    return 'alive';
 }
 
-function activateSkill(skillType, player, attacker, allPlayers, gameData) {
+function activateSkill(skillType, player, attacker, allPlayers, gameData, helpRequester) {
     var skillName = SKILL_NAMES[skillType] || skillType;
 
     switch (skillType) {
@@ -199,7 +209,7 @@ function activateSkill(skillType, player, attacker, allPlayers, gameData) {
         }
         case '2': { // 刺客 - 強制2點傷害
             var targets = allPlayers.filter(function (p) {
-                return p !== player && !p.isProtected && p.exposedCount < 3;
+                return p !== player && !p.isProtected && !p.isDead;
             });
             if (targets.length === 0) break;
             var victim = pickRandom(targets);
@@ -210,7 +220,7 @@ function activateSkill(skillType, player, attacker, allPlayers, gameData) {
                 to: victim.name, exposeType: 2, date: Date.now()
             });
             dealDamage(victim, player, allPlayers, gameData, true);
-            if (victim.exposedCount < 3) {
+            if (!victim.isDead) {
                 dealDamage(victim, player, allPlayers, gameData, true);
             }
             break;
@@ -249,14 +259,15 @@ function activateSkill(skillType, player, attacker, allPlayers, gameData) {
                     skill: 'Heal', exposeType: 4, date: Date.now()
                 });
             } else {
-                // 傷害：對攻擊者造成傷害
-                var dmgTarget = attacker || player;
-                if (dmgTarget.exposedCount < 3 && !dmgTarget.isProtected) {
+                // 傷害：對請求干涉者造成傷害（干涉情境），否則對攻擊者
+                var dmgTarget = helpRequester || attacker || player;
+                if (!dmgTarget.isDead && !dmgTarget.isProtected) {
                     logStep('技能', C.magenta,
                         `${playerTag(player)} 發動【${skillName}:傷害】→ ${playerTag(dmgTarget)} 受到1點傷害!`);
                     player.send({
                         type: 'skill', index: player.index, id: player.name,
-                        to: dmgTarget.name, skill: 'Damage', exposeType: 4, date: Date.now()
+                        to: dmgTarget.name, needHelpID: helpRequester ? helpRequester.name : null,
+                        skill: 'Damage', exposeType: 4, date: Date.now()
                     });
                     dealDamage(dmgTarget, player, allPlayers, gameData, true);
                 } else {
@@ -268,7 +279,7 @@ function activateSkill(skillType, player, attacker, allPlayers, gameData) {
         }
         case '5': { // 靈喻者 - 強制1點傷害(優先等級)
             var targets = allPlayers.filter(function (p) {
-                return p !== player && !p.isProtected && p.exposedCount < 3;
+                return p !== player && !p.isProtected && !p.isDead;
             });
             if (targets.length === 0) break;
             var victim = pickRandom(targets);
@@ -305,7 +316,7 @@ function activateSkill(skillType, player, attacker, allPlayers, gameData) {
             break;
         }
         case '7': { // 狂戰士 - 反擊攻擊者1點傷害
-            if (attacker && attacker.exposedCount < 3 && !attacker.isProtected) {
+            if (attacker && !attacker.isDead && !attacker.isProtected) {
                 logStep('技能', C.magenta,
                     `${playerTag(player)} 發動【${skillName}】→ 反擊 ${playerTag(attacker)} 1點傷害!`);
                 player.send({
@@ -369,7 +380,7 @@ function activateSkill(skillType, player, attacker, allPlayers, gameData) {
 
 // 衛士受到第3點傷害時，解除保護
 function checkUnprotect(player) {
-    if (player.protectTargets.length > 0 && player.exposedCount >= 3) {
+    if (player.protectTargets.length > 0 && player.isDead) {
         player.protectTargets.forEach(function (t) {
             t.isProtected = false;
             t.protectedBy = null;
@@ -460,6 +471,22 @@ async function runSimulation() {
     var gameOver = false;
     var MAX_ROUNDS = 50;
 
+    // 檢查是否有玩家因技能連鎖而死亡，若有則結束遊戲
+    function checkSkillChainDeath() {
+        var deadPlayer = players.find(function (p) { return p.isDead; });
+        if (!deadPlayer) return false;
+        flushSteps();
+        console.log('');
+        console.log(`${C.bold}${C.red}====================================${C.reset}`);
+        console.log(`${C.bold}${C.red}            遊戲結束${C.reset}`);
+        console.log(`${C.bold}${C.red}====================================${C.reset}`);
+        log('死亡', C.red, `${playerTag(deadPlayer)} (${deadPlayer.roleName}/${deadPlayer.character}) 因技能效果陣亡`);
+        var killerTeam = deadPlayer.team === 'B' ? '紅' : '藍';
+        log('結果', C.bold, `${teamColor(deadPlayer.team === 'B' ? 'R' : 'B')}${C.bold}${killerTeam}隊獲勝!${C.reset}`);
+        gameOver = true;
+        return true;
+    }
+
     while (!gameOver && round <= MAX_ROUNDS) {
         await sleep(500);
         console.log(`${C.bold}${C.cyan}=== 第 ${round} 回合 ===${C.reset}`);
@@ -469,20 +496,20 @@ async function runSimulation() {
         var willAttack = Math.random() < 0.70;
 
         if (willAttack) {
-            // 選擇目標：優先對方隊伍中最受傷的、排除受保護的
+            // 選擇目標：優先對方隊伍中最受傷的、排除受保護的和已死亡的
             var opponents = players.filter(function (p) {
-                return p.team !== knifeHolder.team && !p.isProtected && p.exposedCount < 3;
+                return p.team !== knifeHolder.team && !p.isProtected && !p.isDead && p.exposedCount < 3;
             });
             // 如果所有對手都被保護了，選沒保護的任何人
             if (opponents.length === 0) {
                 opponents = players.filter(function (p) {
-                    return p !== knifeHolder && !p.isProtected && p.exposedCount < 3;
+                    return p !== knifeHolder && !p.isProtected && !p.isDead && p.exposedCount < 3;
                 });
             }
             // 如果還是沒有，攻擊已經 3/3 的對手（致命一擊）
             if (opponents.length === 0) {
                 opponents = players.filter(function (p) {
-                    return p.team !== knifeHolder.team && p.exposedCount >= 3;
+                    return p.team !== knifeHolder.team && !p.isDead && p.exposedCount >= 3;
                 });
             }
             if (opponents.length === 0) {
@@ -502,8 +529,9 @@ async function runSimulation() {
                 });
                 await sleep(100);
 
-                // ===== 致命一擊 =====
+                // ===== 致命一擊（目標已揭露全部指示物）=====
                 if (target.exposedCount >= 3) {
+                    target.isDead = true;
                     knifeHolder.send({
                         type: 'GameOver', attackID: knifeHolder.name,
                         beenKilledID: target.name, date: Date.now()
@@ -535,7 +563,7 @@ async function runSimulation() {
                     // 尋找可能的干涉者（非攻擊者、非目標、同隊優先）
                     var helpers = players.filter(function (p) {
                         return p !== knifeHolder && p !== target &&
-                            p.exposedCount < 3 && !p.isProtected;
+                            !p.isDead && p.exposedCount < 3 && !p.isProtected;
                     });
                     var teamHelpers = helpers.filter(function (p) { return p.team === target.team; });
                     var helperPool = teamHelpers.length > 0 ? teamHelpers : helpers;
@@ -567,8 +595,11 @@ async function runSimulation() {
                         });
                         await sleep(100);
 
-                        dealDamage(helper, knifeHolder, players, gameData, 0);
+                        dealDamage(helper, knifeHolder, players, gameData, 0, target);
                         checkUnprotect(helper);
+
+                        // 檢查技能連鎖是否造成死亡
+                        if (checkSkillChainDeath()) break;
 
                         // 匕首轉移給干涉者
                         knifeHolder = helper;
@@ -580,24 +611,21 @@ async function runSimulation() {
                     var result = dealDamage(target, knifeHolder, players, gameData, 0);
                     checkUnprotect(target);
 
+                    // 檢查技能連鎖是否造成死亡
+                    if (checkSkillChainDeath()) break;
+
                     // 匕首轉移給被攻擊者
                     knifeHolder = target;
-
-                    // 如果技能造成連鎖殺死了某人
-                    var deadPlayer = players.find(function (p) { return p.exposedCount >= 3; });
-                    if (deadPlayer) {
-                        // 檢查是否有人可以終結
-                        var killerCandidates = players.filter(function (p) {
-                            return p !== deadPlayer && p.team !== deadPlayer.team;
-                        });
-                        // 不在這裡結束遊戲，下一回合攻擊時才判定
-                    }
                 }
 
-                flushSteps();
-                log('刀', C.yellow, '匕首 -> ' + playerTag(knifeHolder));
+                if (!gameOver) {
+                    flushSteps();
+                    log('刀', C.yellow, '匕首 -> ' + playerTag(knifeHolder));
+                }
             }
         }
+
+        if (gameOver) break;
 
         if (!willAttack) {
             // 傳刀
@@ -632,7 +660,8 @@ async function runSimulation() {
     players.forEach(function (p) {
         var tc = teamColor(p.team);
         var status = '';
-        if (p.exposedCount >= 3) status = ` ${C.red}${C.bold}[陣亡]${C.reset}`;
+        if (p.isDead) status = ` ${C.red}${C.bold}[陣亡]${C.reset}`;
+        else if (p.exposedCount >= 3) status = ` ${C.yellow}${C.bold}[瀕死]${C.reset}`;
         if (p.isProtected) status += ` ${C.cyan}[盾牌]${C.reset}`;
         if (p.hasFan) status += ` ${C.dim}[折扇]${C.reset}`;
         if (p.hasMagicStaff) status += ` ${C.dim}[法杖]${C.reset}`;

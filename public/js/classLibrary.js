@@ -61,21 +61,13 @@ var expose10Index = 0;
 
 function initial() {
     $('.choose').hide(1000);
-    $('#skill1').attr('disabled', false);
-    $('#skill2').attr('disabled', false);
-    $('#skill3').attr('disabled', false);
+    $('#skill1, #skill2, #skill3').attr('disabled', false);
     gameState = 0;
-    for (var index = 0; index < 10; index++) {
-        $('#player' + index + "_cardBack").attr('src', "./img/card-back.png");
-        $('#player' + index + '_knife').attr('src', "./img/knife-back.png");
-        for (var selectionIndex = 1; selectionIndex <= 3; selectionIndex++) {
-            $("#player" + index + " .selection" + selectionIndex).css({ 'background-image': 'none' });
-        }
-        for (var itemIndex = 1; itemIndex <= 6; itemIndex++) {
-            $("#player" + index + " .item" + itemIndex).css({ 'background-image': 'none' });
-            $('#player' + index + " .item" + itemIndex).attr('title', "");
-        }
-    }
+
+    $('#players-container [id$="_cardBack"]').attr('src', "./img/card-back.png");
+    $('#players-container [id$="_knife"]').attr('src', "./img/knife-back.png");
+    $('#players-container [class*="selection"]').css('background-image', 'none');
+    $('#players-container [class*="item"]').css('background-image', 'none').attr('title', '');
 
     needHelp = "";
     beenHelp = false;
